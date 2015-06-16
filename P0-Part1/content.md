@@ -122,13 +122,12 @@ Now we have the basic outline set up in SpriteBuilder including a grid, tiles an
 
 # Setup project in Xcode
 
-Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder. Create two empty `Swift` files: `Grid.swift` and `Tile.swift`.
+Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder.
 
-Let's start with the `Grid` class:
+Let's start with the `Grid` class. Select File -> New -> File, then do the following:
+![](xcode_newClass.png)
 
-![](./Xcode_Grid_new.png)
-
-Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder.
+Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder. 
 
 > [action]
 > Add the following to `Grid.swift`:
@@ -137,7 +136,7 @@ Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit f
 >           
 >       }
 
-The second class we need to add is the *Tile* class. It needs to be subclass of *CCNode*.
+Create a new *Tile* class. It needs to be subclass of *CCNode*.
 
 > [action]
 > Add the following to `Tile.swift`:
@@ -228,7 +227,7 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 >           }
 >       }
 
-This is a lot of code, but no worries, all of it is fairly straightforward. First we load a `Tile.ccb` to read the height and width of a single tile. Then we subtract the width of all tiles we need to render from the width of the grid to calculate the available width. Once we have the available width we can calculate the available horizontal margin between tiles. We do the same for the height and the vertical margin.
+This is a lot of code, but don't worry - all of it is fairly straightforward. First we load a `Tile.ccb` to read the height and width of a single tile. Then we subtract the width of all tiles we need to render from the width of the grid to calculate the available width. Once we have the available width we can calculate the available horizontal margin between tiles. We do the same for the height and the vertical margin.
 
 Once we know the margins we run through a two dimensional loop to create all tiles. We start at the first row (bottom) and render all columns of the first row (from left to right). Once we reach the last column we move to the next row. We repeat until we reach the last column of the last row (top right). The following image visualizes the loop that renders the tiles:
 
@@ -247,11 +246,11 @@ Now the background will be rendered as soon as the `MainScene.ccb` is loaded. Yo
 
 ![](./Simulator_grid.png)
 
-Well done! This is starting to look like a real game. In the next step we are going to spawn our first tiles.
+Well done! This is starting to look like a real game. Next, we are going to spawn our first tiles.
 
 # Spawn the first tiles
 
-In this step we are going to make a lot of progress. We will create a data structure for our grid (a 2D array) and we will add methods that will spawn tiles and add them to our data structure and to our visual grid. This chapter will also be a lesson about breaking a large problem down into many small problems. Whenever we need to write a complex piece of code breaking down the problem into smaller ones should be the first step.
+In this step, we will create a data structure for our grid (a 2D array) and we will add methods that will spawn tiles and add them to our data structure and visual grid. This chapter will also be a lesson about breaking a large problem down into many small problems. Whenever we need to write a complex piece of code, breaking down the problem into smaller ones should be the first step.
 
 **The large problem:** We need to spawn a certain amount of randomly positioned tiles when our program starts. We need to add the tiles to a data structure and we need to add them visually to the grid.
 
@@ -294,7 +293,7 @@ Now we can start implementing the different methods and putting the parts togeth
 
 ### Determining the position for a new tile
 
-First we are going to add the `positionForColumn(:Row:)` method. This method uses the information we stored about the grid (column sizes, margins) to calculate a point for a given tile index. The implementation are only a few lines.
+First we are going to add the `positionForColumn(:Row:)` method. This method uses the information we stored about the grid (column sizes, margins) to calculate a point for a given tile index. The implementation is only a few lines.
 
 > [action]
 > Add this method to the `Grid` class:
@@ -326,13 +325,13 @@ The next method we are going to implement is the one that adds a tile at a speci
 >           tile.runAction(sequence)
 >       }
 
-This method performs a couple of tasks. First we load the tile by loading the CCB file and storing it in a local variable. Then we also store this tile in the grid array. We set the scale of the tile to 0 because we want the tile to appear with a scale up animation. Then we add the child to the grid. We define the position of the tile using the `positionForColumn(:row:)` method. Then we create a little action sequence that  forms a spawn animation. The tile starts with a scale of 0 and is invisible. We define a action sequence that waits for 0.3 seconds and then scales the tile up to its full size in 0.2 seconds.
+This method performs a couple of tasks. First we load the tile by loading the CCB file and storing it in a local variable. We also store this tile in the grid array. We set the scale of the tile to 0 because we want the tile to appear with a scale up animation. Then we add the child to the grid. We define the position of the tile using the `positionForColumn(:row:)` method. Then we create an action sequence that forms a spawn animation. The tile starts with a scale of 0 and is invisible. We define a action sequence that waits for 0.3 seconds and then scales the tile up to its full size in 0.2 seconds.
 
-That's it! Now we have a method to add a tile at any position in the game. Now there's not much more code to go and we will be spawning random tiles.
+That's it! Now we have a method to add a tile at any position in the game. Without much more code, we'll be spawning random tiles!
 
 ### Spawning a random tile
 
-The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this, once there are only a few spots left on the grid the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.* 
+The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this; once there are only a few spots left on the grid, the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.* 
 
 > [action]
 > Add the `spawnRandomTile` method to the `Grid` class:
@@ -387,13 +386,9 @@ Very straightforward! One last change and we can finally run the game and watch 
 
 We setup `gridArray` and store the `noTile` value for each index. Then we call `spawnStartTiles` to get our first two tiles spawned.
 
-These were a lot of steps! But we have only built the functionality to spawn start tiles, we have implemented many methods that we will be reusing moving forward.
-
 **Now it is time to run the app and check if everything worked out.** When the app started you should see something similar to this:
 
 ![](./Simulator_spawning.png)
-
-Two spawned tiles! Well done! We added a lot of code in this step.
 
 We set up the basic project in this step. We added the data model for our game and already included a system that allows to add tiles with animations. **Well done!**
 
