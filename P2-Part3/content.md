@@ -91,13 +91,21 @@ For debugging purposes we will set the `winTile` to be `8`. This way it will be 
 Now we will need to check if this win condition occurs. 
 
 > [action]
-> Add the following lines to `Grid` to the *mergeTilesAtindex* method after the line that sets *mergedThisRound* to *true*:
+> Add the following line the *mergeTilesAtindex* method in `Grid` in the same place you define your other `CCAction`s:
+>
+>		var checkWin = CCActionCallBlock.actionWithBlock { () -> Void in
+      	if otherTile.value == self.winTile {self.win()}
+      	} as! CCActionCallBlock
+>
+> Now let's add this `CCAction` to the `CCActionSequence` we call on *mergedTile*. Change:
 > 
->       if (otherTile.value == winTile) {
->           win()
->       }
+> 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, remove]) as! CCActionSequence
+> 
+>  To:
+> 
+> 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, checkWin, remove]) as! CCActionSequence
 
-Once the value of the merged tile reaches the value of the *WIN_TILE* we call the *win* method!
+Once the value of the merged tile reaches the value of the *WIN_TILE* we call the *win* method! You can see that we have to check the value only after we *mergeTile*, as that's when we assign *otherTile* its new value.
 
 > [action]
 > Add the *win* method to *Grid*:
@@ -107,7 +115,7 @@ Once the value of the merged tile reaches the value of the *WIN_TILE* we call th
 >       }
 
 
-All we do in the *win* method is calling the *endGameWithMessage* method. In our game most tasks that need to performed to reset a game will be the same for won and lost games (reset game, store new highscore, etc.). Therefore it makes sense to extract this functionality into the *endGameWithMessage* method instead of duplicating the code.
+All we do in the *win* method is calling the *endGameWithMessage* method. In our game, most tasks that need to be performed to reset a game will be the same for won and lost games (reset game, store new highscore, etc.). Therefore it makes sense to extract this functionality into the *endGameWithMessage* method instead of duplicating the code.
 
 We simply pass a different text to method for lost or won games.
 
@@ -164,7 +172,7 @@ Let's start with the *movePossible* method. The *movePossible* method reads the 
 >           return false
 >       }
 
-This method iterates over the entire grid and selects each index. For each index the loop checks if the position on the grid is free. If the position is free that means the player can definitely perform a move, so we immediately return *true*. If the index is not empty, we check all the neighbors of the tiles and see if they have the same value as the tile at the current index, if that is the case this means the tiles could be merged, so we can return *true* because there is definitely a possible move.
+This method iterates over the entire grid and selects each index. For each index the loop checks if the position on the grid is free. If the position is free that means the player can definitely perform a move, so we immediately return *true*. If the index is not empty, we check all the neighbors of the tiles and see if they have the same value as the tile at the current index; if that is the case, the tiles could be merged, so we can return *true* because there is a possible move.
 
 If *every* index is occupied and none of the neighbours of a tile has the same value, we will complete the iteration through the grid and return *false* at the end. This means that the player has no possible move left and will lose the game.
 
@@ -192,12 +200,13 @@ Now we have put the parts together. In the *nextRound* method we check wether a 
 
 As you may remember the current implementation of *endGameWithMessage* just logs a message to the console.
 
-We have one little issue left, currently it is really difficult to lose in the game. It will take many moves and result in a very long debugging cycle.
+We have one little issue left; currently, it is really difficult to lose in the game. It will take many moves and result in a very long debugging cycle.
 
 > [action]
 > To make losing easier open *Tile.swift* and change the line in the *didLoadFromCCB* method that generates a random number to:
 > 
->       value = Int(CCRANDOM_MINUS1_1() + 201) * 2
+>           value = Int(CCRANDOM_MINUS1_1() * 201) + 201
+
 
 Now the tile numbers will be so widely spread that it is very easy to lose. **Run the new version of the game.** After a couple of moves your grid should look like this:
 
@@ -220,23 +229,21 @@ Great! Another step toward completing the game. Next we are going to take care o
 
 # Keep track of highscores
 
-The score of the current game only needs to be stored while the game is going on. That's why we can use a simple variable to store the *score*. The highscore however should be persistent. If a player restarts the app the highest score from any previous game should be available.
+The score of the current game only needs to be stored while the game is going on. That's why we can use a simple variable to store the *score*. However, the highscore should be persistent. If a player restarts the app, the highest score from any previous game should be available.
 
-In iOS the easiest way to store simple information persistently is using *NSUserDefaults*. *NSUserDefaults* provides a very simple interface to store key-value information.
+In iOS, the easiest way to store simple information persistently is using *NSUserDefaults*. *NSUserDefaults* provides a very simple interface to store key-value information.
 
 A good place to update the highscore is when the game ends.
 
 Add these lines to the end of *endGameWithMessage*:
+>
+    let defaults = NSUserDefaults.standardUserDefaults()
+    var highscore = defaults.integerForKey("highscore")
+    if score > highscore {
+      defaults.setInteger(score, forKey: "highscore")
+    }
 
-        NSNumber *highScore = [[NSUserDefaults standardUserDefaults] objectForKey:@"highscore"];
-        if (self.score > [highScore intValue]) {
-            // new highscore!
-            highScore = [NSNumber numberWithInt:self.score];
-            [[NSUserDefaults standardUserDefaults] setObject:highScore forKey:@"highscore"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-
-What are we doing in these couple of lines? We are reading the current highscore from *NSUserDefaults.* If the score of the current game is a new highscore we store the new value in *NSUserDefauts*. We call the *synchronize* method on *NSUserDefaults* to write these changes to disk immediately.
+What are we doing in these couple of lines? We are reading the current highscore from *NSUserDefaults.* If the score of the current game is a new highscore, we store the new value in *NSUserDefauts*.
 
 Now we are storing the highscore but we are not updating the label that displays the highscore yet. You might remember that we had a similar problem when displaying the score.
 
@@ -265,7 +272,7 @@ We are doing two things here. We observe the highscore, just as we observe the s
 
 <!--TODO: explain KVO-->
 
-The second thing we do is calling the *updateHighscore* method directly from *didLoadFromCCB* to display the latest highscore once the app starts.
+The second thing we do is call the *updateHighscore* method directly from *didLoadFromCCB* to display the latest highscore once the app starts.
 
 > [action]
 > Now that we are observing a variable we need to add an *observeValueForKeyPath* method in *MainScene*:
@@ -282,13 +289,15 @@ Now you can run the new version of the game and see how the highscore is stored 
 
 ![](./highscore.png)
 
-# Add a Game Over screen
+#Finishing the Game
 
-Our game can already detect when a player has won or lost. However, we are currently only logging a message to the console. In this step we are going to add a game over screen with a restart button.
+## Create a Game Over screen
 
-To start with this step we will create a new CCB file for the Game Over screen in SpriteBuilder.
+Our game can already detect when a player has won or lost. However, we are currently only logging a message to the console. In this step, we are going to add a game over screen with a restart button.
 
-Open the SpriteBuilder project and create a new CCB file:
+###In SpriteBuilder
+
+Open the SpriteBuilder project and create a new CCB *Node* file:
 
 ![](./SpriteBuilder_gameEnd.png)
 
@@ -306,31 +315,29 @@ Now we'll need to add two labels to display a game over message and the score th
 
 Add two labels and a button to the node so that your game end screen looks similar to this:
 
-![](./SpriteBuilder_gameEnd_finish.png)
+![](gameOver_fullLook.png)
 
-Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button.
+Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button. Link the top label to a *messageLabel* variable:
 
-![](./SpriteBuilder_gameEnd_code_connection.png)
+![](gameOver_messageLabel.png)
 
-Link the top label to a *messageLabel* variable.
+Link the displayed score to a variable called *scoreLabel*:
 
-![](./SpriteBuilder_gameEnd_score_code_connection.png)
+![](gameOver_scoreLabel.png)
 
-Link the displayed score to a variable called *scoreLabel*.
+Set up a selector called `newGame` for the `Restart` button:
 
-![](./SpriteBuilder_gameEnd_button_config.png)
-
-Set up a selector called `newGame` for the `Restart` button.
-
-![](./SpriteBuilder_gameEnd_class_connection.png)
+![](gameOver_restartButton.png)
 
 Finally, set up a custom class called *GameEnd* for the root node.
 
-Now we are done with the setup in SpriteBuilder. **Publish the project and switch to Xcode.**
+![](gameOver_classConnection.png)
 
-In Xcode we need to create the *GameEnd* class that is linked to the CCB file we just created in SpriteBuilder:
+Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to XCode.**
 
-![](./Xcode_gameEnd.png)
+###In XCode
+
+We need to create the *GameEnd* class that is linked to the CCB file we just created in SpriteBuilder. Create a new Swift file by going to File -> New -> File and selecting Swift File. Call it `GameEnd`.
 
 Next, we need to set up the variables and methods that we have linked in our SpriteBuilder project.
 

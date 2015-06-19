@@ -3,7 +3,7 @@ title: Build your own 2048 with SpriteBuilder and Cocos2D - Part 1!
 slug: part-1
 ---
 
-This tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes alongside with some puzzles and challenges. You will learn a lot in the next couple of hours!
+This tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours!
 
 You can find the entire code for this tutorial on [GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
 
@@ -34,46 +34,59 @@ Now a 300x300 grid background should be centered within *MainScene*.
 
 We also need to set up some code connections for the grid. The grid will have a custom class - this is where the most game logic will be located and the *MainScene* will have a variable that references the grid. Select the grid and open the code connections tab:
 
-![](./Grid_CodeConnect.png)
+![](addingGrid_codeConnection.png)
 
 ## Adding Score Labels
 
-Another important part of the *2048* UI are labels that display the score of the current game and the highscore. We are going to add these labels to *MainScene* as well. Add four instances *Label TTF* above the grid.
+Another important part of the *2048* UI are labels that display the score of the current game and the highscore. We are going to add these labels to *MainScene* as well. Add two instances *Label TTF* above the grid. The first should be set up as follows:
 
-![](./ScoreLabels.png)
+* 	Position Reference Corner: `Top left`
+*	Position: `(70.0, 30.0)`
+* 	Label text: `Score`
+* 	Font size: `18`
 
-The labels should be set up as following:
+This is what it should look like when you're done:
 
-*   Top label font size: `18`
-*   Bottom label font size: `32`
-*   Position Reference Corner: `Top left`
-*   Horizontal and Vertical Alignment: `Center`
+![](addingScoreLabels_score.png)
 
-Positioning the labels from the top left corner will make the interface look good on 3.5 and 4 inch phones. You can switch between previews for both device types through the *Document -&gt; Resolution* menu in the top menu.
+Now set up the second label:
 
-The labels also need code connections so that we can update the score and the highscore within our game code later on. Add code connections for both labels:
+*	Position Reference Corner: `Top right`
+*	Position: `(70.0, 30.0)`
+* 	Label text: `High Score`
+* 	Font size: `18`
 
-![](./score_code_connection.png)
+![](addingScoreLabels_topRight.png)
 
-![](./highscore_code_connection.png)
+Notice that the two labels' *Position* attributes are the same in points, yet they're visibly different. That's because when we change the *Position Reference Corner*, we're changing what *Position* is based upon. This provides more flexibility when it comes to different screen sizes - the labels will automatically space themselves in the top corners. Go ahead and see for yourself! Go to Document -> Resolution -> Tablet Portrait. See how the labels are still positioned in the top corners of the screen? 
 
-Name the code connection variables `scoreLabel`  and `highscoreLabel` and make sure the selected target is `Doc root var`.
+Drag two more instances of *Label TTF* onto the screen so we can display the actual scores. The first label should be set up as following:
+
+*	Position Reference Corner: `Top left`
+*	Position: `(70.0, 70.0)`
+* 	Label text: `0`
+* 	Font size: `32`
+
+Make the second label identical except for the *Position Reference Corner*, which should be `Top right`.
+
+All that's left is to make code connections so we can update the scores from code. Name the code connection variables `scoreLabel`  and `highscoreLabel` and make sure the selected target is `Doc root var`:
+
+![](addingScoreLabels_codeConnections.png)
 
 ## Add Tiles
 
-We will use SpriteBuilder to create a prototype tile. We will instantiate 16 of these tiles in code, but we will define the layout of them in SpriteBuilder. Let's start by creating a new CCB file:
+We will use SpriteBuilder to create a prototype tile. We will instantiate these tiles in code, but we will define the layout of them in SpriteBuilder. Let's start by creating a new *Node* CCB file:
 
 ![](./SpriteBuilder_Tile_new.png)
 
-The type of the new CCB file should be *Node*.
+Select the root node of *Tile.ccb* and set the size to be (70,70). This way the four tiles in each row will use 280 out of 300 points and we have 20 points left for margins between the tiles.
+
 
 ![](./SpriteBuilder_Tile_size.png)
 
-Select the root node of *Tile.ccb* and set the size to be (70,70). This way the four tiles in each row will use 280 out of 300 points and we have 20 points left for margins between the tiles. In our version of *2048* each tile will have a solid background color that will change whenever the value of a tile changes. Since we need to modify the behaviour of this tile in code, we need to link it to a custom class:
+In our version of *2048* each tile will have a solid background color that will change whenever the value of a tile changes. Since we need to modify the behaviour of this tile in code, we need to link it to a custom class called *Tile*:
 
 ![](./SpriteBuilder_Tile_class_connection.png)
-
-Link the root node of *Tile.ccb* to a class called *Tile*.
 
 Now we can work on adding a background color to the tile. The easiest way to apply a background color to this tile is adding a *Color Node* to *Tile.ccb*. Add a *Color Node* by dragging it from the left panel to the timeline on the bottom and dropping it on top of the root node (CCNode):
 
@@ -83,13 +96,11 @@ You now need to set up the color node to fill the entire root node by setting th
 
 ![](./SpriteBuilder_Tile_color_size.png)
 
-You can also choose a color for the backgroud node. When we finalize the game we will change the color of the tile in code, until then the game will use the color you choose here for all tiles. We need to set up a variable that references this *Color Node* so that we can change the color in code:
+Choose any color for the background node. Ultimately we will change the color of the tile in code. Until then, the game will use the color you choose here for all tiles. Let's set up a code connection so we can modify the color later. Select the *CCNodeColor* you just added and call it *backgroundNode*. Make sure it's a `Doc root var`:
 
-![](./SpriteBuilder_Tile_color_code_connection.png)
+![](addTiles_backgroundNode.png)
 
-Link the *Color Node* to a variable called *_backgroundNode* and set the target to *Doc root var*. We are very close to completing the basic setup in SpriteBuilder and diving into the code.
-
-The only step left is adding a label to the tile that will display the current value of it. Drag a *Label TTF* from the node library and add it as a child of the *Color Node*. You can either do this by dropping the label to the stage or to the timeline:
+The only step left before we dive into code is adding a label to the tile that will display the current value of it. Drag a *Label TTF* from the node library and add it as a child of the *Color Node*. You can either do this by dropping the label to the stage or to the timeline:
 
 ![](./SpriteBuilder_Tile_label.png)
 
@@ -101,24 +112,22 @@ Once you have added the label you need to change a couple of settings:
 *   Set the font size to `42`
 *   Check the checkbox `Adjust font size to fit`. This will automatically reduce the font size for larger numbers to make the text fit the specified dimensions
 *   Set the dimensions to `(70, 70)`
+*   Set alignment to `Center` and `Center`
 
-Last but not least we need a code connection for this label - we will want to change the value it displays when we merge tiles:
+Last but not least, we need a code connection for this label - we will want to change the value it displays when we merge tiles. Name the variable `valueLabel`  and assign it to `Doc root var`:
 
-![](./SpriteBuilder_Tile_label_code_connection.png)
+![](addTiles_labelConnection.png)
 
-Name the variable `valueLabel`  and assign it to `Doc root var`.
-
-Now we have the basic outline set up in SpriteBuilder including a grid, tiles and score labels. As a next step **publish the SpriteBuilder project** and open the Xcode project. Let's start coding!
+Now we have the basic outline set up in SpriteBuilder including a grid, tiles and score labels. **Don't forget to publish the SpriteBuilder project!** You can do this by pressing the publish button in the top left of SpriteBuilder's interface, or by selecting File -> Publish. Open your project in XCode by going to File -> Open Project in XCode. Let's start coding!
 
 # Setup project in Xcode
 
-Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder. Create two empty `Swift` files: `Grid.swift` and `Tile.swift`.
+Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder.
 
-Let's start with the `Grid` class:
+Let's start with the `Grid` class. Select File -> New -> File, then do the following:
+![](xcode_newClass.png)
 
-![](./Xcode_Grid_new.png)
-
-Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder.
+Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder. 
 
 > [action]
 > Add the following to `Grid.swift`:
@@ -127,7 +136,7 @@ Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit f
 >           
 >       }
 
-The second class we need to add is the *Tile* class. It needs to be subclass of *CCNode*.
+Create a new *Tile* class. It needs to be subclass of *CCNode*.
 
 > [action]
 > Add the following to `Tile.swift`:
@@ -218,7 +227,7 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 >           }
 >       }
 
-This is a lot of code, but no worries, all of it is fairly straightforward. First we load a `Tile.ccb` to read the height and width of a single tile. Then we subtract the width of all tiles we need to render from the width of the grid to calculate the available width. Once we have the available width we can calculate the available horizontal margin between tiles. We do the same for the height and the vertical margin.
+This is a lot of code, but don't worry - all of it is fairly straightforward. First we load a `Tile.ccb` to read the height and width of a single tile. Then we subtract the width of all tiles we need to render from the width of the grid to calculate the available width. Once we have the available width we can calculate the available horizontal margin between tiles. We do the same for the height and the vertical margin.
 
 Once we know the margins we run through a two dimensional loop to create all tiles. We start at the first row (bottom) and render all columns of the first row (from left to right). Once we reach the last column we move to the next row. We repeat until we reach the last column of the last row (top right). The following image visualizes the loop that renders the tiles:
 
@@ -237,11 +246,11 @@ Now the background will be rendered as soon as the `MainScene.ccb` is loaded. Yo
 
 ![](./Simulator_grid.png)
 
-Well done! This is starting to look like a real game. In the next step we are going to spawn our first tiles.
+Well done! This is starting to look like a real game. Next, we are going to spawn our first tiles.
 
 # Spawn the first tiles
 
-In this step we are going to make a lot of progress. We will create a data structure for our grid (a 2D array) and we will add methods that will spawn tiles and add them to our data structure and to our visual grid. This chapter will also be a lesson about breaking a large problem down into many small problems. Whenever we need to write a complex piece of code breaking down the problem into smaller ones should be the first step.
+In this step, we will create a data structure for our grid (a 2D array) and we will add methods that will spawn tiles and add them to our data structure and visual grid. This chapter will also be a lesson about breaking a large problem down into many small problems. Whenever we need to write a complex piece of code, breaking down the problem into smaller ones should be the first step.
 
 **The large problem:** We need to spawn a certain amount of randomly positioned tiles when our program starts. We need to add the tiles to a data structure and we need to add them visually to the grid.
 
@@ -284,7 +293,7 @@ Now we can start implementing the different methods and putting the parts togeth
 
 ### Determining the position for a new tile
 
-First we are going to add the `positionForColumn(:Row:)` method. This method uses the information we stored about the grid (column sizes, margins) to calculate a point for a given tile index. The implementation are only a few lines.
+First we are going to add the `positionForColumn(:Row:)` method. This method uses the information we stored about the grid (column sizes, margins) to calculate a point for a given tile index. The implementation is only a few lines.
 
 > [action]
 > Add this method to the `Grid` class:
@@ -316,13 +325,13 @@ The next method we are going to implement is the one that adds a tile at a speci
 >           tile.runAction(sequence)
 >       }
 
-This method performs a couple of tasks. First we load the tile by loading the CCB file and storing it in a local variable. Then we also store this tile in the grid array. We set the scale of the tile to 0 because we want the tile to appear with a scale up animation. Then we add the child to the grid. We define the position of the tile using the `positionForColumn(:row:)` method. Then we create a little action sequence that  forms a spawn animation. The tile starts with a scale of 0 and is invisible. We define a action sequence that waits for 0.3 seconds and then scales the tile up to its full size in 0.2 seconds.
+This method performs a couple of tasks. First we load the tile by loading the CCB file and storing it in a local variable. We also store this tile in the grid array. We set the scale of the tile to 0 because we want the tile to appear with a scale up animation. Then we add the child to the grid. We define the position of the tile using the `positionForColumn(:row:)` method. Then we create an action sequence that forms a spawn animation. The tile starts with a scale of 0 and is invisible. We define a action sequence that waits for 0.3 seconds and then scales the tile up to its full size in 0.2 seconds.
 
-That's it! Now we have a method to add a tile at any position in the game. Now there's not much more code to go and we will be spawning random tiles.
+That's it! Now we have a method to add a tile at any position in the game. Without much more code, we'll be spawning random tiles!
 
 ### Spawning a random tile
 
-The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this, once there are only a few spots left on the grid the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.* 
+The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this; once there are only a few spots left on the grid, the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.* 
 
 > [action]
 > Add the `spawnRandomTile` method to the `Grid` class:
@@ -377,13 +386,9 @@ Very straightforward! One last change and we can finally run the game and watch 
 
 We setup `gridArray` and store the `noTile` value for each index. Then we call `spawnStartTiles` to get our first two tiles spawned.
 
-These were a lot of steps! But we have only built the functionality to spawn start tiles, we have implemented many methods that we will be reusing moving forward.
-
 **Now it is time to run the app and check if everything worked out.** When the app started you should see something similar to this:
 
 ![](./Simulator_spawning.png)
-
-Two spawned tiles! Well done! We added a lot of code in this step.
 
 We set up the basic project in this step. We added the data model for our game and already included a system that allows to add tiles with animations. **Well done!**
 

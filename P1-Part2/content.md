@@ -12,9 +12,10 @@ We are now going to implement some exciting but also some slightly complicated f
 *   the player can move all tiles in the grid in 4 different directions
 *   each tile moves as far is it can in the direction the user chose
 *   the tiles are moved in a specific order. Example: when moving to the left the left most tile in each row is moved first, then the second most left tile, etc.
-*   tile movement is limited by the border of the grid and by other tiles. Tiles cannot move to grid slots that are already occupied by other tiles. The only exception is that two tiles can be merged when they have the same value.*   tiles can only be merged once per move. Tiles that already have been merged in a move cannot be merged again
+*   tile movement is limited by the border of the grid and by other tiles. Tiles cannot move to grid slots that are already occupied by other tiles. The only exception is that two tiles can be merged when they have the same value.
+*   tiles can only be merged once per move. Tiles that already have been merged in a move cannot be merged again
 
-We will not implement all of these rules at once. We will divide the functionality into smaller chunks. Once again it is very important to break the big problem down into smaller ones.
+We will not implement all of these rules at once. We will divide the functionality into smaller chunks. Once again, **it is important to break the big problem down into smaller ones.**
 
 # Moving all tiles to the edges
 
@@ -71,9 +72,7 @@ Now we need to implement the methods that we have linked to our gesture recogniz
 >           println("Down swipe!")
 >       }
 
-For now we are just adding log statements to these methods. We want to be sure that the swipe detection works before moving forward.
-
-Now you can run the app and check the console for log messages to appear. If you swipe in any direction you should see one of the four log messages in the Xcode console.
+For now we are just adding log statements to these methods. We want to be sure that the swipe detection works before moving forward. Run the app and check the console for log messages to appear. If you swipe in any direction you should see one of the four log messages in the Xcode console.
 
 Now that this works as expected we can replace our test implementation with some actual code. We will not implement the tile movement directly in the gesture recognizer callbacks since that would result in a lot of duplicate and badly reusable code. Basically all of the methods would have the same code, the only difference would be the direction of the move. Instead we will choose an elegant solution and will have the gesture recognizer callbacks call a `move` method and providing the direction in which the tiles should move.
 
@@ -179,13 +178,13 @@ That's a lot of code to digest, but basically it just implements the movement pa
 
 The `move` method get's the movement direction as a *CGPoint*.
 
-We start the method with searching for the tile that should be moved first. We start at index (0, 0), which is the bottom left corner of the grid. We then move into the direction of the movement vector. We keep on moving into the direction of the movement vector until we hit an invalid index. We check that by using the `indexValid` method which we are going to write later on. For example, when the move method would be called with a top direction, we would first move entirely to the top of the grid and start searching for the first tile to move from there. We store the current position on the grid in the `currentX` and `currentY` variables, these two variables basically have the function of a cursor. After completing this first step, `currentX` and `currentY` contain the position on the grid from which we will start searching for tiles to move.
+We start the method with searching for the tile that should be moved first. We start at index (0, 0), which is the bottom left corner of the grid. We then move into the direction of the movement vector. We keep on moving into the direction of the movement vector until we hit an invalid index. We check that by using the `indexValid` method which we are going to write later on. For example, when the move method would be called with a top direction, we would first move entirely to the top of the grid and start searching for the first tile to move from there. We store the current position on the grid in the `currentX` and `currentY` variables; these two variables basically have the function of a cursor. After completing this first step, `currentX` and `currentY` contain the position on the grid from which we will start searching for tiles to move.
 
-From this initial position we search column for column for the first tile to move. We start at `currentY` in each column, which is either the top or bottom edge of the grid, depending on the movement direction. Inside each column we move into the opposite y direction of the movement vector. Once we completed a column, we will move to the next column that is in the opposite x direction of the movement vector.
+From this initial position we search column for column for the first tile to move. We start at `currentY` in each column, which is either the top or bottom edge of the grid depending on the movement direction. Inside each column, we move into the opposite y direction of the movement vector. Once we complete a column, we move to the next column that is in the opposite x direction of the movement vector.
 
 We capture the initial y position for each column in the variable `initialY`. We store the x and y movement direction in the variables `xChange` and `yChange`. These variables describe in which direction we move over the grid. Since the movement direction will always only be either in x or in y direction, either x or y will be 0. For example when moving to the left, the `yChange` will be 0 because the y component of the movement direction is 0. We iterate through the grid with the inverted movement direction. However, it is only important to invert the movement direction for the part of the direction that is **not 0.** So for a movement to the left it is important that we select tiles beginning at the left corner and moving to the right. However, it is irrelevant if we start in the top row and move to the bottom or do it the other way round. However, `xChange` and `yChange` are both not allowed to be 0, because we use them to iterate through our grid. So whichever of these two values is 0 will be set to 1. This way we ensure that we iterate through all rows and columns.
 
-When wrapping your head around this the first time this can be very difficult to understand, so we have added an illustration to explain the concept further.
+When wrapping your head around this the first time, it can be very difficult to understand, so we have added an illustration to explain the concept further.
 
 The following figure illustrates how we find the start position from which we start iterating through the tiles and how exactly we iterate through the tiles.
 
@@ -226,7 +225,7 @@ As you can see we have a `while` loop that moves the selected tile as far as pos
 
 After the loop terminates we check if the position of the selected tile has changed. For example, if the selected tile already is located left edge of the grid and we want to move it to the left, the position will not change. Only if the position changed we call the `moveTile` method. The `moveTile` method will update the position of the tile in the `gridArray` and move the tile visually with an animation.
 
-Quite a lot of code but basically this is the three step process described earlier:
+It's a lot of code, but basically the three step process described earlier is:
 
 1.  Select the tile that needs be moved next
 2.  Determine how far this tile can be moved
@@ -270,7 +269,7 @@ The `moveTile` method receives the tile that should be moved, the old index, and
 
 Then we take care of updating the UI so that a player sees the tile moving across the grid. Here we use the `positionForColumn` method to get the new x and y coordinates for this tile on the grid. We then use a *CCActionMoveTo* to animate the movement of the tile to that new position.
 
-You have completed a huge amount of steps now:
+You have completed a huge amount of steps so far:
 
 *   Added gesture recognizers
 *   Added gesture recognizer callbacks
@@ -368,7 +367,7 @@ Well done! Now you should see the initial tiles spawning with values of 4 or 2:
 
 Now that tiles have values we are able to check if two tiles could be merged or not. We will need to add this check in our `move` method.
 
-Currently we move the tile in the selected direction until we reach an occupied or invalid index. Now, we need to add a check to see if we stopped moving further because of an occupied index. If that was the case we need to check if the tile that is blocking the index has the same value as our tile. If both have the same value we need to merge them, if they don't have the same value we move the tile next to the tile that is occupying the next index (this is the current default behavior).
+Currently, we move the tile in the selected direction until we reach an occupied or invalid index. Now we need to add a check to see if we stopped moving further because of an occupied index. If that was the case we need to check if the tile that is blocking the index has the same value as our tile. If both have the same value we need to merge them, if they don't have the same value we move the tile next to the tile that is occupying the next index (this is the current default behavior).
 
 > [action]
 > Replace this block inside the `move` method:
@@ -416,7 +415,6 @@ As mentioned above, if we stop moving further because of an occupied index we di
 >           // Update game data
 >           var mergedTile = gridArray[x][y]!
 >           var otherTile = gridArray[otherX][otherY]!
->           score += mergedTile.value + otherTile.value
 >
 >           gridArray[x][y] = noTile
 >
