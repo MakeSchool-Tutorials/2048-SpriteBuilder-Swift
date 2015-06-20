@@ -3,11 +3,9 @@ title: Starting the game logic
 slug: game-logic
 ---
 
-#Making the Game Logic
-
 In this section, you'll implement the basic gameplay of 2048.
 
-## Avoid that tiles overlap
+#Avoid that tiles overlap
 
 Our current mechanism moves each tile in the direction of the movement until it reaches an invalid index. What the original game does is moving each tile until it reaches an invalid index **or** an occupied tile. This means we need an extension of our test in the `indexValid` method.
 
@@ -49,7 +47,7 @@ Now all we need to do is use this method when we check how far we can move a til
 
 Now you can run the game again and you should see that tiles cannot overlap anymore!
 
-## Merge tiles
+#Checking if tiles can be merged
 
 Now we have avoided that tiles overlap in the game but there is a special situation in *2048* when tiles can actually merge. If two tiles have the same value they will merge into one. In this step we will add that functionality to our game.
 
@@ -90,6 +88,8 @@ Well done! Now you should see the initial tiles spawning with values of 4 or 2:
 ![](./Simulator.png)
 
 Now that tiles have values we are able to check if two tiles could be merged or not. We will need to add this check in our `move` method.
+
+#Merging tiles
 
 Currently, we move the tile in the selected direction until we reach an occupied or invalid index. Now we need to add a check to see if we stopped moving further because of an occupied index. If that was the case we need to check if the tile that is blocking the index has the same value as our tile. If both have the same value we need to merge them, if they don't have the same value we move the tile next to the tile that is occupying the next index (this is the current default behavior).
 
@@ -171,7 +171,7 @@ Once you got that the merging should look like this:
 
 ![](./Merge.gif)
 
-## Spawn new tiles each round
+#Spawn new tiles each round
 
 Slowly it's time to add more tiles to the game. In *2048* a new tile gets spawned whenever the player performs a move. An action in the game is only considered a "move" when one of the tiles actually changes positions. If the user chooses a direction that will not allow any tile on the grid to move then no new tile will be spawned.
 
@@ -231,7 +231,7 @@ Now you will spawn a new tile whenever the existing tiles have been moved or mer
 
 **This is basically a playable game already, well done!** If you played long enough you will have realized that there is a little issue with the game. Unlike the original *2048* a tile that has been merged in this move can be merged again! We are going to fix this in the next step.
 
-## Avoid that tiles can merge twice
+#Avoid that tiles can merge twice
 
 The rules of *2048* don't allow a tile to merge twice within in one move. Here is an illustration of an example situation assuming an upward tile movement:
 
@@ -306,5 +306,3 @@ Right at the beginning of the method we spawn a new random tile - that is the fu
 The bottom part of the method iterates through all tiles in the grid and resets the value of the `mergedThisRound` property.
 
 **Well done!** Now we are actually really close to finishing the game. In this step we have added user input and implemented all the different rules for tile movement & tile merging. All the basic game mechanics are implemented.
-
-Go to part 3 where we will add scores, win & lose conditions and will apply some finishing touches to this game!

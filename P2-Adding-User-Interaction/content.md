@@ -3,11 +3,9 @@ title: Adding user interaction
 slug: adding-user-interaction
 ---
 
-#Adding User Interaction
-
 So far in this tutorial, we've set up the basic project, rendered a grid and implemented multiple methods to spawn random tiles when the game starts up. In this part, we are going to add user interaction to the game - we will start moving tiles!
 
-## Move the tiles
+#Move the tiles
 
 We are now going to implement some exciting but also some slightly complicated functionality - tile movement. The basic rules of 2048 are:
 
@@ -19,11 +17,11 @@ We are now going to implement some exciting but also some slightly complicated f
 
 We will not implement all of these rules at once. We will divide the functionality into smaller chunks. Once again, **it is important to break the big problem down into smaller ones.**
 
-## Moving all tiles to the edges
+#Moving all tiles to the edges
 
 In the first step we will be moving all tiles as far as possible in the selected direction, ignoring other tiles that might be in the way. To implement movement in general we will need to add some sort of input mechanism to the game.
 
-### Adding gesture recognizers
+#Adding gesture recognizers
 
 For this game it will be most intuitive for the user to swipe in the direction in which the tiles shall move. Luckily iOS provides a very simple API to capture swipes. We can use the `UIGestureRecognizer`.
 
@@ -101,7 +99,7 @@ To express the direction in which the tiles shall move we will use *CGPoint*. A 
 
 Great! Now we need to implement the *move* method that we are calling here. The *move* method is the most complicated part of the *2048* game so grab your favorite hot drink. We're going to dive right into it!
 
-### Implementing the move method
+#Implementing the move method
 
 This is a good time to do some recap on the rules that determine the tile movement in *2048*. The most important one is the order in which the tiles are moved. Here's an illustrated example of a movement to the left, that shows how each individual tile is moved:
 
@@ -178,6 +176,8 @@ I will provide this first version of the move method for you and walk through it
 
 That's a lot of code to digest, but basically it just implements the movement pattern that we have discussed earlier - let's take a close look at it.
 
+#A closer look
+
 The `move` method get's the movement direction as a *CGPoint*.
 
 We start the method with searching for the tile that should be moved first. We start at index (0, 0), which is the bottom left corner of the grid. We then move into the direction of the movement vector. We keep on moving into the direction of the movement vector until we hit an invalid index. We check that by using the `indexValid` method which we are going to write later on. For example, when the move method would be called with a top direction, we would first move entirely to the top of the grid and start searching for the first tile to move from there. We store the current position on the grid in the `currentX` and `currentY` variables; these two variables basically have the function of a cursor. After completing this first step, `currentX` and `currentY` contain the position on the grid from which we will start searching for tiles to move.
@@ -235,7 +235,7 @@ It's a lot of code, but basically the three step process described earlier is:
 
 Now all that is left to do is adding the `moveTile` and `indexValid` methods that we are using in our implementation of the `move` method.
 
-### Adding the moveTile and indexValid method
+#Adding the moveTile and indexValid method
 
 Good news: the methods we are going to add in this step are lot shorter than the `move` method.
 

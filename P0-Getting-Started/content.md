@@ -3,13 +3,11 @@ title: Getting Started with 2048!
 slug: getting-started
 ---
 
-#Getting Started
-
 This tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours!
 
 You can find the entire code for this tutorial on [GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
 
-## Set up the basic structure in SpriteBuilder
+#Set up the basic structure in SpriteBuilder
 
 A good starting point for every SpriteBuilder project is creating the outline of the game. For 2048 this will be rather simple. We are going to work with only one scene. We will add a grid to that scene and we will create a ccb file that will represent a single tile in our game.
 
@@ -19,7 +17,7 @@ First, **create a new SpriteBuilder project** with `Swift` as the *primary langu
 
 In the next step remove the "SpriteBuilder" label from the scene (select the label and hit backspace).
 
-### Adding the Grid
+#Adding the grid
 
 Now we can add the grid to the screen. We will only add a grid background in SpriteBuilder. The 16 cells (4x4) that hold the game tiles will be rendered in code.
 
@@ -38,7 +36,7 @@ We also need to set up some code connections for the grid. The grid will have a 
 
 ![](addingGrid_codeConnection.png)
 
-### Adding Score Labels
+#Adding score labels
 
 Another important part of the *2048* UI are labels that display the score of the current game and the highscore. We are going to add these labels to *MainScene* as well. Add two instances *Label TTF* above the grid. The first should be set up as follows:
 
@@ -55,8 +53,8 @@ Now set up the second label:
 
 *	Position Reference Corner: `Top right`
 *	Position: `(70.0, 30.0)`
-* 	Label text: `High Score`
-* 	Font size: `18`
+* Label text: `High Score`
+* Font size: `18`
 
 ![](addingScoreLabels_topRight.png)
 
@@ -66,8 +64,8 @@ Drag two more instances of *Label TTF* onto the screen so we can display the act
 
 *	Position Reference Corner: `Top left`
 *	Position: `(70.0, 70.0)`
-* 	Label text: `0`
-* 	Font size: `32`
+* Label text: `0`
+* Font size: `32`
 
 Make the second label identical except for the *Position Reference Corner*, which should be `Top right`.
 
@@ -75,7 +73,7 @@ All that's left is to make code connections so we can update the scores from cod
 
 ![](addingScoreLabels_codeConnections.png)
 
-### Add Tiles
+#Add tiles
 
 We will use SpriteBuilder to create a prototype tile. We will instantiate these tiles in code, but we will define the layout of them in SpriteBuilder. Let's start by creating a new *Node* CCB file:
 
@@ -110,11 +108,11 @@ Once you have added the label you need to change a couple of settings:
 
 ![](./SpriteBuilder_Tile_label_config.png)
 
-*   Center the label by choosing the positioning type `in % of parent container` and choosing `(50%, 50%)` as position
-*   Set the font size to `42`
-*   Check the checkbox `Adjust font size to fit`. This will automatically reduce the font size for larger numbers to make the text fit the specified dimensions
-*   Set the dimensions to `(70, 70)`
-*   Set alignment to `Center` and `Center`
+* Center the label by choosing the positioning type `in % of parent container` and choosing `(50%, 50%)` as position
+* Set the font size to `42`
+* Check the checkbox `Adjust font size to fit`. This will automatically reduce the font size for larger numbers to make the text fit the specified dimensions
+* Set the dimensions to `(70, 70)`
+* Set alignment to `Center` and `Center`
 
 Last but not least, we need a code connection for this label - we will want to change the value it displays when we merge tiles. Name the variable `valueLabel`  and assign it to `Doc root var`:
 

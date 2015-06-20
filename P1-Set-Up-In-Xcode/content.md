@@ -3,8 +3,6 @@ title: Setting up classes in Xcode
 slug: set-up-in-xcode
 ---
 
-# Set up the project in Xcode
-
 Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder.
 
 Let's start with the `Grid` class. Select File -> New -> File, then do the following:
@@ -55,7 +53,7 @@ Now we have set up all required code connections and you should be able to run t
 
 Pretty empty - but it's up and running. Next we will render 16 cells as background for our grid.
 
-## Render a grid background
+#Render a grid background
 
 We are going to implement the background rendering in the grid class. Open *Grid.swift* in Xcode.
 
@@ -131,11 +129,13 @@ Now the background will be rendered as soon as the `MainScene.ccb` is loaded. Yo
 
 Well done! This is starting to look like a real game. Next, we are going to spawn our first tiles.
 
-## Spawn the first tiles
+#Spawn the first tiles
 
 In this step, we will create a data structure for our grid (a 2D array) and we will add methods that will spawn tiles and add them to our data structure and visual grid. This chapter will also be a lesson about breaking a large problem down into many small problems. Whenever we need to write a complex piece of code, breaking down the problem into smaller ones should be the first step.
 
-**The large problem:** We need to spawn a certain amount of randomly positioned tiles when our program starts. We need to add the tiles to a data structure and we need to add them visually to the grid.
+**The large problem:**
+
+We need to spawn a certain amount of randomly positioned tiles when our program starts. We need to add the tiles to a data structure and we need to add them visually to the grid.
 
 **Small problems:**
 
@@ -174,7 +174,7 @@ We also need to add a constant that will store how many start tiles we want to s
 
 Now we can start implementing the different methods and putting the parts together!
 
-### Determining the position for a new tile
+#Determining the position for a new tile
 
 First we are going to add the `positionForColumn(:Row:)` method. This method uses the information we stored about the grid (column sizes, margins) to calculate a point for a given tile index. The implementation is only a few lines.
 
@@ -189,7 +189,7 @@ First we are going to add the `positionForColumn(:Row:)` method. This method use
 
 We will use this method momentarily when adding tiles to the game.
 
-### Add a tile at a certain row and column
+#Add a tile at a certain row and column
 
 The next method we are going to implement is the one that adds a tile at a specified row and column.
 
@@ -212,7 +212,7 @@ This method performs a couple of tasks. First we load the tile by loading the CC
 
 That's it! Now we have a method to add a tile at any position in the game. Without much more code, we'll be spawning random tiles!
 
-### Spawning a random tile
+#Spawning a random tile
 
 The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this; once there are only a few spots left on the grid, the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.*
 
@@ -234,7 +234,7 @@ The next method that we are going to add will determine a random free position o
 
 This method picks a random position and checks if it is occupied. We test occupation by checking if the tile for the index is a `noTile` (these represent empty slots). If the position is occupied the loop continues and generates a new random number, if the picked position is free the loop terminates and the method uses the `addTileAtColumn` to add a tile at that position. Now all we need to do is call this method multiple times and we will be able to spawn our start tiles!
 
-### Spawn multiple start tiles
+#Spawn multiple start tiles
 
 Now we are going to call the `spawnRandomTile` method for each start tile.
 
@@ -274,5 +274,3 @@ We setup `gridArray` and store the `noTile` value for each index. Then we call `
 ![](./Simulator_spawning.png)
 
 We set up the basic project in this step. We added the data model for our game and already included a system that allows to add tiles with animations. **Well done!**
-
-You can now move on to part 2 of the tutorial where we will add user interaction and tile movement to this game!

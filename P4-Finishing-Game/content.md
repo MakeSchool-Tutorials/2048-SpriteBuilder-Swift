@@ -3,19 +3,17 @@ title: Finishing the core gameplay
 slug: finishing-game
 ---
 
-#Finishing the Game
-
 In the second part of this tutorial we have added user interaction, tile movement and tile merging. We implemented all the basic mechanics of the game. In this part of the tutorial we will add a win and a lose condition to the game, keep track of scores and add some finishing touches to our very own version of *2048!*
 
 We will start with adding some scores to our game.
 
-## Keep track of scores
+#Keep track of scores
 
 In *2048* the player's score increases when two tiles merge. We are not yet keeping track of any scores in our version of *2048.* Let's change that right away!
 
 We will start by displaying the score of the current game. Later on we will also keep track of the player's overall highscore.
 
-### Keeping track of current game's score
+#Keeping track of current game's score
 
 First of all we need a new variable to store the current score of the game. It could make sense to add an entirely new game class to our program that would encapsulate all the information about our game. For a *2048* game however, there is very little information to be stored. To not add unnecessary complexity we will store the current game score as a property of the *Grid*, which is absolutely fine for this type of game.
 
@@ -45,7 +43,7 @@ At the moment the player will not see that we are keeping track of the score. We
 
 <!--consider updating to KVO in MainScene on score in Grid -->
 
-### Displaying the new score
+#Displaying the new score
 
 The change we need to make is relatively simple. `Grid` should always have a reference to `MainScene` through `parent`. `parent` gets set when `Grid` is added as a child of `MainScene`. All we need to do is create a `didSet` property observer for `score` so we can update `scoreLabel`.
 
@@ -69,7 +67,7 @@ The change we need to make is relatively simple. `Grid` should always have a ref
 
 Now let's determine when a game is over so that we can store a highscore!
 
-## Add a win and a lose condition
+#Add a win and a lose condition
 
 A player loses in *2048* when they cannot perform any further move. This situation occurs when the grid is full and none of the existing tiles can be merged. We need to detect this situation so that we can end the game. The player wins the game if they reach the "2048" tiles.
 
@@ -79,7 +77,7 @@ The best place to check the winning condition is in the *mergeTilesAtindex* meth
 
 Let's get started by implementing the win condition.
 
-### Implementing the win condition
+#Implementing the win condition
 
 Let's start by setting up a constant for the value of the final tile.
 
@@ -132,7 +130,7 @@ For now, all we are doing in this method is logging to the console for debugging
 
 Well done! Now let's implement the losing condition.
 
-### Implementing the losing condition
+#Implementing the losing condition
 
 Detecting the losing situation is a little more complex then a win situation. A losing situation occurs when the entire grid is filled with tiles and no merges between these tiles are possible. Then there is no possible move left in the game. We will have to add code to detect such a situation in our game. On a high level with have do to the following: in the *nextRound* method we need to check if the player is able to perform a move or not. If the player cannot move the tiles in any direction we need to end the game.
 
@@ -229,7 +227,7 @@ Now that we have tested the new functionality we can reset the values that we ch
 
 Great! Another step toward completing the game. Next we are going to take care of storing players' highscores.
 
-## Keep track of highscores
+#Keep track of highscores
 
 The score of the current game only needs to be stored while the game is going on. That's why we can use a simple variable to store the *score*. However, the highscore should be persistent. If a player restarts the app, the highest score from any previous game should be available.
 

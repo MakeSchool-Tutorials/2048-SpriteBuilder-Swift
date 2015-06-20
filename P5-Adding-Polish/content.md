@@ -3,15 +3,13 @@ title: Adding some polish!
 slug: adding-polish
 ---
 
-#Adding Polish
-
 You now have a playable 2048 game! Let's add some final touches to give this game the polish it deserves.
 
-## Create a Game Over screen
+#Create a Game Over screen
 
 Our game can already detect when a player has won or lost. However, we are currently only logging a message to the console. In this step, we are going to add a game over screen with a restart button.
 
-###In SpriteBuilder
+#In SpriteBuilder
 
 Open the SpriteBuilder project and create a new CCB *Node* file:
 
@@ -51,7 +49,7 @@ Finally, set up a custom class called *GameEnd* for the root node.
 
 Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to XCode.**
 
-###In XCode
+#In Xcode
 
 We need to create the *GameEnd* class that is linked to the CCB file we just created in SpriteBuilder. Create a new Swift file by going to File -> New -> File and selecting Swift File. Call it `GameEnd`.
 
@@ -107,7 +105,7 @@ Now we need to add some code to display the *GameEnd* as a popup once a game end
 
 Basically the game is complete now! There's one minor detail missing: changing the color of tiles depending on their value. That's the last polishing step in this tutorial.
 
-# Polishing: colorful tiles
+#Polishing: colorful tiles
 
 This is the last step and it isn't going to be very complicated. You only need to add a large switch-statement to the *Tile* class.
 
