@@ -1,19 +1,21 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Swift - Part 3!
-slug: part-3
+title: Build your own 2048 with SpriteBuilder and Swift - Part 5!
+slug: part-5
 ---
+
+#Finishing the Game
 
 In the second part of this tutorial we have added user interaction, tile movement and tile merging. We implemented all the basic mechanics of the game. In this part of the tutorial we will add a win and a lose condition to the game, keep track of scores and add some finishing touches to our very own version of *2048!*
 
 We will start with adding some scores to our game.
 
-# Keep track of scores
+## Keep track of scores
 
 In *2048* the player's score increases when two tiles merge. We are not yet keeping track of any scores in our version of *2048.* Let's change that right away!
 
 We will start by displaying the score of the current game. Later on we will also keep track of the player's overall highscore.
 
-## Keeping track of current game's score
+### Keeping track of current game's score
 
 First of all we need a new variable to store the current score of the game. It could make sense to add an entirely new game class to our program that would encapsulate all the information about our game. For a *2048* game however, there is very little information to be stored. To not add unnecessary complexity we will store the current game score as a property of the *Grid*, which is absolutely fine for this type of game.
 
@@ -43,7 +45,7 @@ At the moment the player will not see that we are keeping track of the score. We
 
 <!--consider updating to KVO in MainScene on score in Grid -->
 
-## Displaying the new score
+### Displaying the new score
 
 The change we need to make is relatively simple. `Grid` should always have a reference to `MainScene` through `parent`. `parent` gets set when `Grid` is added as a child of `MainScene`. All we need to do is create a `didSet` property observer for `score` so we can update `scoreLabel`.
 
@@ -67,7 +69,7 @@ The change we need to make is relatively simple. `Grid` should always have a ref
 
 Now let's determine when a game is over so that we can store a highscore!
 
-# Add a win and a lose condition
+## Add a win and a lose condition
 
 A player loses in *2048* when they cannot perform any further move. This situation occurs when the grid is full and none of the existing tiles can be merged. We need to detect this situation so that we can end the game. The player wins the game if they reach the "2048" tiles.
 
@@ -77,7 +79,7 @@ The best place to check the winning condition is in the *mergeTilesAtindex* meth
 
 Let's get started by implementing the win condition.
 
-## Implementing the win condition
+### Implementing the win condition
 
 Let's start by setting up a constant for the value of the final tile. 
 
@@ -130,7 +132,7 @@ For now, all we are doing in this method is logging to the console for debugging
 
 Well done! Now let's implement the losing condition.
 
-## Implementing the losing condition
+### Implementing the losing condition
 
 Detecting the losing situation is a little more complex then a win situation. A losing situation occurs when the entire grid is filled with tiles and no merges between these tiles are possible. Then there is no possible move left in the game. We will have to add code to detect such a situation in our game. On a high level with have do to the following: in the *nextRound* method we need to check if the player is able to perform a move or not. If the player cannot move the tiles in any direction we need to end the game.
 
@@ -227,7 +229,7 @@ Now that we have tested the new functionality we can reset the values that we ch
 
 Great! Another step toward completing the game. Next we are going to take care of storing players' highscores.
 
-# Keep track of highscores
+## Keep track of highscores
 
 The score of the current game only needs to be stored while the game is going on. That's why we can use a simple variable to store the *score*. However, the highscore should be persistent. If a player restarts the app, the highest score from any previous game should be available.
 
@@ -289,173 +291,3 @@ Now you can run the new version of the game and see how the highscore is stored 
 
 ![](./highscore.png)
 
-#Finishing the Game
-
-## Create a Game Over screen
-
-Our game can already detect when a player has won or lost. However, we are currently only logging a message to the console. In this step, we are going to add a game over screen with a restart button.
-
-###In SpriteBuilder
-
-Open the SpriteBuilder project and create a new CCB *Node* file:
-
-![](./SpriteBuilder_gameEnd.png)
-
-Set the *root node size* to `(320, 200)` and the *anchor point* to `(0.5, 0.5)`:
-
-![](./SpriteBuilder_gameEnd_size.png)
-
-Add a *CCNodeColor* to this node:
-
-![](./SpriteBuilder_gameEnd_color.png)
-
-Set the *width* and the *height* to `100%` of the parent container. Set the *background color* to `green` and the *opacity* to `0.8`. Now we have a green slightly transparent background for our game over screen.
-
-Now we'll need to add two labels to display a game over message and the score that the player has achieved. Additionally we are going to add a button to restart the game.
-
-Add two labels and a button to the node so that your game end screen looks similar to this:
-
-![](gameOver_fullLook.png)
-
-Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button. Link the top label to a *messageLabel* variable:
-
-![](gameOver_messageLabel.png)
-
-Link the displayed score to a variable called *scoreLabel*:
-
-![](gameOver_scoreLabel.png)
-
-Set up a selector called `newGame` for the `Restart` button:
-
-![](gameOver_restartButton.png)
-
-Finally, set up a custom class called *GameEnd* for the root node.
-
-![](gameOver_classConnection.png)
-
-Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to XCode.**
-
-###In XCode
-
-We need to create the *GameEnd* class that is linked to the CCB file we just created in SpriteBuilder. Create a new Swift file by going to File -> New -> File and selecting Swift File. Call it `GameEnd`.
-
-Next, we need to set up the variables and methods that we have linked in our SpriteBuilder project.
-
-> [action]
-> Set up the `GameEnd` class with our code connections:
-> 
->       class GameEnd: CCNode {
->           weak var messageLabel: CCLabelTTF!
->           weak var scoreLabel: CCLabelTTF!
-> 
->       }
-> 
-> Next, add the *newGame* method that will be called when a user hits the restart button on the *endGame* screen:
-> 
->       func newGame() {
->           var mainScene: CCScene = CCBReader.loadAsScene("MainScene") as CCScene
->           CCDirector.sharedDirector().replaceScene(mainScene)
->       }
-
-This method simply reloads the *MainScene* which restarts the entire game.
-
-The game over screen we are implementing right now will be presented by the *Grid* once a game ends. As you may remember the *Grid* provides two different messages, depending on the outcome of the game. We need to provide a way for the *Grid* to inform the game over screen which text should be displayed. Additionally it would be great if the final score of the game could be handed to the game over screen in the same method.
-
-> [action]
-> Add the implementation of this method to *GameEnd*:
-> 
->       func setMessage(message: String, score: Int) {
->           messageLabel.string = message
->           scoreLabel.string = "\(score)"
->       }
-
-All we are doing is updating the content of both labels.
-
-Now we can move on to the final step of implementing the game end screen - presenting it!
-
-Now we need to add some code to display the *GameEnd* as a popup once a game ends. The place to do that is the *endGameWithMessage* method. 
-
-> [action]
-> Add the following lines to the beginning of the *endGameWithMessage* method in *Grid*:
-> 
->       var gameEndPopover = CCBReader.load("GameEnd") as! GameEnd
->       gameEndPopover.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
->       gameEndPopover.position = ccp(0.5, 0.5)
->       gameEndPopover.zOrder = Int.max
->       gameEndPopover.setMessage(message, score: score)
->       addChild(gameEndPopover)
-
- **Now everything is in place!** We are setting the game end screen up and presenting it when a game terminates. You should now test this feature (hint: changing the *winTile* value makes testing a lot easier). When you win or lose a game you should see a result similar to this:
-
-![](./SimulatorComplete.png)
-
-Basically the game is complete now! There's one minor detail missing: changing the color of tiles depending on their value. That's the last polishing step in this tutorial.
-
-# Polishing: colorful tiles
-
-This is the last step and it isn't going to be very complicated. You only need to add a large switch-statement to the *Tile* class.
-
-> [action]
-> Add the following method to `Tile`:
-> 
->       func updateColor() {
->           var backgroundColor: CCColor
->           
->           switch value {
->           case 2:
->               backgroundColor = CCColor(red: 20.0/255, green: 20.0/255, blue: 80.0/255)
->               break
->           case 4:
->               backgroundColor = CCColor(red: 20.0/255, green: 20.0/255, blue: 140.0/255)
->               break
->           case 8:
->               backgroundColor = CCColor(red:20.0/255, green:60.0/255, blue:220.0/255)
->               break
->           case 16:
->               backgroundColor = CCColor(red:20.0/255, green:120.0/255, blue:120.0/255)
->               break
->           case 32:
->               backgroundColor = CCColor(red:20.0/255, green:160.0/255, blue:120.0/255)
->               break
->           case 64:
->               backgroundColor = CCColor(red:20.0/255, green:160.0/255, blue:60.0/255)
->               break
->           case 128:
->               backgroundColor = CCColor(red:50.0/255, green:160.0/255, blue:60.0/255)
->               break
->           case 256:
->               backgroundColor = CCColor(red:80.0/255, green:120.0/255, blue:60.0/255)
->               break
->           case 512:
->               backgroundColor = CCColor(red:140.0/255, green:70.0/255, blue:60.0/255)
->               break
->           case 1024:
->               backgroundColor = CCColor(red:170.0/255, green:30.0/255, blue:60.0/255)
->               break
->           case 2048:
->               backgroundColor = CCColor(red:220.0/255, green:30.0/255, blue:30.0/255)
->               break
->           default:
->               backgroundColor = CCColor.greenColor()
->               break
->           }
->           
->           backgroundNode.color = backgroundColor
->       }
-> 
-> Now call this method from your `didSet` property observer on `value`:
-> 
->       var value: Int = 0 {
->           didSet {
->               valueLabel.string = "\(value)"
->               updateColor()
->           }
->       }
-
-All this switch-case does is mapping a tile number to a color. Now your game should look a little more colorful:
-
-![](./SimulatorPolish.png)
-
-**You're done!** Congratulations, you have come a really long way. I hope you enjoyed and once again learned a lot more about iOS and game development!
-
-Reminder: you can find [the entire project on GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
