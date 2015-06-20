@@ -1,6 +1,6 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Swift - Part 3!
-slug: part-3
+title: Adding user interaction
+slug: adding-user-interaction
 ---
 
 #Adding User Interaction
@@ -122,7 +122,7 @@ I will provide this first version of the move method for you and walk through it
 
 > [action]
 > Add the following *move* method to the `Grid` class:
-> 
+>
 >       func move(direction: CGPoint) {
 >           // apply negative vector until reaching boundary, this way we get the tile that is the furthest away
 >           // bottom left corner
@@ -258,7 +258,7 @@ Let's start with the `indexValid` method. The `indexValid` method will receive a
 All this method does is checking wether the index is within the bounds of the two dimensional array.
 
 > Now you need to add the `moveTile` method to the `Grid` class:
-> 
+>
 >       func moveTile(tile: Tile, fromX: Int, fromY: Int, toX: Int, toY: Int) {
 >           gridArray[toX][toY] = gridArray[fromX][fromY]
 >           gridArray[fromX][fromY] = noTile

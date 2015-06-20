@@ -1,6 +1,6 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Swift - Part 6!
-slug: part-6
+title: Adding some polish!
+slug: adding-polish
 ---
 
 #Adding Polish
@@ -59,15 +59,15 @@ Next, we need to set up the variables and methods that we have linked in our Spr
 
 > [action]
 > Set up the `GameEnd` class with our code connections:
-> 
+>
 >       class GameEnd: CCNode {
 >           weak var messageLabel: CCLabelTTF!
 >           weak var scoreLabel: CCLabelTTF!
-> 
+>
 >       }
-> 
+>
 > Next, add the *newGame* method that will be called when a user hits the restart button on the *endGame* screen:
-> 
+>
 >       func newGame() {
 >           var mainScene: CCScene = CCBReader.loadAsScene("MainScene") as CCScene
 >           CCDirector.sharedDirector().replaceScene(mainScene)
@@ -79,7 +79,7 @@ The game over screen we are implementing right now will be presented by the *Gri
 
 > [action]
 > Add the implementation of this method to *GameEnd*:
-> 
+>
 >       func setMessage(message: String, score: Int) {
 >           messageLabel.string = message
 >           scoreLabel.string = "\(score)"
@@ -89,11 +89,11 @@ All we are doing is updating the content of both labels.
 
 Now we can move on to the final step of implementing the game end screen - presenting it!
 
-Now we need to add some code to display the *GameEnd* as a popup once a game ends. The place to do that is the *endGameWithMessage* method. 
+Now we need to add some code to display the *GameEnd* as a popup once a game ends. The place to do that is the *endGameWithMessage* method.
 
 > [action]
 > Add the following lines to the beginning of the *endGameWithMessage* method in *Grid*:
-> 
+>
 >       var gameEndPopover = CCBReader.load("GameEnd") as! GameEnd
 >       gameEndPopover.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
 >       gameEndPopover.position = ccp(0.5, 0.5)
@@ -113,10 +113,10 @@ This is the last step and it isn't going to be very complicated. You only need t
 
 > [action]
 > Add the following method to `Tile`:
-> 
+>
 >       func updateColor() {
 >           var backgroundColor: CCColor
->           
+>
 >           switch value {
 >           case 2:
 >               backgroundColor = CCColor(red: 20.0/255, green: 20.0/255, blue: 80.0/255)
@@ -155,12 +155,12 @@ This is the last step and it isn't going to be very complicated. You only need t
 >               backgroundColor = CCColor.greenColor()
 >               break
 >           }
->           
+>
 >           backgroundNode.color = backgroundColor
 >       }
-> 
+>
 > Now call this method from your `didSet` property observer on `value`:
-> 
+>
 >       var value: Int = 0 {
 >           didSet {
 >               valueLabel.string = "\(value)"

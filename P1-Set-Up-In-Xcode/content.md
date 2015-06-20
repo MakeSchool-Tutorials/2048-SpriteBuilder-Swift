@@ -1,38 +1,38 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Cocos2D - Part 2!
-slug: part-2
+title: Setting up classes in Xcode
+slug: set-up-in-xcode
 ---
 
-# Setup project in Xcode
+# Set up the project in Xcode
 
 Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder.
 
 Let's start with the `Grid` class. Select File -> New -> File, then do the following:
 ![](xcode_newClass.png)
 
-Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder. 
+Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder.
 
 > [action]
 > Add the following to `Grid.swift`:
-> 
+>
 >       class Grid: CCNodeColor {
->           
+>
 >       }
 
 Create a new *Tile* class. It needs to be subclass of *CCNode*.
 
 > [action]
 > Add the following to `Tile.swift`:
-> 
+>
 >       class Tile: CCNode {
->           
+>
 >       }
 
 Now that we have created both classes we need to set up the variables for the connections we defined in SpriteBuilder.
 
 > [action]
 > Let's start with *MainScene*. Open *MainScene.swift* in Xcode. Add the variables below between `{` and `}` to complete the code connections:
-> 
+>
 >       weak var grid: Grid!
 >       weak var scoreLabel: CCLabelTTF!
 >       weak var highscoreLabel: CCLabelTTF!
@@ -41,7 +41,7 @@ The above lines create variables that reference the grid and both score labels t
 
 > [action]
 > Next, open *Tile.swift* and add the following variables to complete the code connections:
-> 
+>
 >       weak var valueLabel: CCLabelTTF!
 >       weak var backgroundNode: CCNodeColor!
 
@@ -71,9 +71,9 @@ We are going to implement a mechanism that reads the grid size and the tile size
 
 > [action]
 > Add the following variables to the `Grid` class:
-> 
+>
 >       let gridSize = 4
-> 
+>
 >       var columnWidth: CGFloat = 0
 >       var columnHeight: CGFloat = 0
 >       var tileMarginVertical: CGFloat = 0
@@ -85,18 +85,18 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 
 > [action]
 > Add the following method to the `Grid` class:
-> 
+>
 >       func setupBackground() {
 >           var tile = CCBReader.load("Tile") as! Tile
 >           columnWidth = tile.contentSize.width
 >           columnHeight = tile.contentSize.height
-> 
+>
 >           tileMarginHorizontal = (contentSize.width - (CGFloat(gridSize) * columnWidth)) / CGFloat(gridSize + 1)
 >           tileMarginVertical = (contentSize.height - (CGFloat(gridSize) * columnHeight)) / CGFloat(gridSize + 1)
->    
+>
 >           var x = tileMarginHorizontal
 >           var y = tileMarginVertical
->    
+>
 >           for i in 0..<gridSize {
 >               x = tileMarginHorizontal
 >               for j in 0..<gridSize {
@@ -120,7 +120,7 @@ Now that you understand the rendering code we just need to call it. When working
 
 > [action]
 > Let's call our new method from `didLoadFromCCB` by adding this implementation to `Grid.swift`:
-> 
+>
 >       func didLoadFromCCB() {
 >           setupBackground()
 >       }
@@ -153,11 +153,11 @@ The next step is transforming these small problems into methods that we can impl
 *   `spawnStartTiles:` calls `spawnRandomTile` **n** times
 *   `positionForColumn(:Row:)` a utility method that is used by `addTileAtColumn(:Row:)` to determine where a tile needs to be added to the visual grid
 
-As you can see, all of these methods are not too complicated - the most complicated step is breaking the big problem down into smaller problems. Before we can start implementing these methods we need to add an import statement, a constant and two variables. 
+As you can see, all of these methods are not too complicated - the most complicated step is breaking the big problem down into smaller problems. Before we can start implementing these methods we need to add an import statement, a constant and two variables.
 
 > [action]
 > Add this these variables to the `Grid` class:
-> 
+>
 >       var gridArray = [[Tile?]]()
 >       var noTile: Tile? = nil
 
@@ -195,7 +195,7 @@ The next method we are going to implement is the one that adds a tile at a speci
 
 > [action]
 > Add this method the `Grid` class:
-> 
+>
 >       func addTileAtColumn(column: Int, row: Int) {
 >           var tile = CCBReader.load("Tile") as! Tile
 >           gridArray[column][row] = tile
@@ -214,11 +214,11 @@ That's it! Now we have a method to add a tile at any position in the game. Witho
 
 ### Spawning a random tile
 
-The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this; once there are only a few spots left on the grid, the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.* 
+The next method that we are going to add will determine a random free position on the grid to spawn a new tile. The easiest way to do this is having a loop that continues generating a random tile index until it finds a free position on the grid. *Note: this is not the most efficient way to do this; once there are only a few spots left on the grid, the program will generate many random positions that will already be occupied by other tiles. However, this approach is absolutely fine for this type of game.*
 
 > [action]
 > Add the `spawnRandomTile` method to the `Grid` class:
-> 
+>
 >       func spawnRandomTile() {
 >           var spawned = false
 >           while !spawned {
@@ -240,7 +240,7 @@ Now we are going to call the `spawnRandomTile` method for each start tile.
 
 > [action]
 > Add this method to the `Grid` class:
-> 
+>
 >       func spawnStartTiles() {
 >           for i in 0..<startTiles {
 >               spawnRandomTile()
@@ -252,7 +252,7 @@ Very straightforward! One last change and we can finally run the game and watch 
 
 > [action]
 > Change your `didLoadFromCCB` method to look like this:
-> 
+>
 >       func didLoadFromCCB() {
 >           setupBackground()
 >

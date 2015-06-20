@@ -1,11 +1,11 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Swift - Part 4!
-slug: part-4
+title: Starting the game logic
+slug: game-logic
 ---
 
 #Making the Game Logic
 
-In this section, you'll implement the basic gameplay of 2048. 
+In this section, you'll implement the basic gameplay of 2048.
 
 ## Avoid that tiles overlap
 
@@ -14,7 +14,7 @@ Our current mechanism moves each tile in the direction of the movement until it 
 Instead of changing the `indexValid` method we will be adding a new method called `indexValidAndUnoccupied`. The `indexValid` method is used in multiple places that only need to check if a value is within the boundaries of the `gridArray` and that do not care about occupied or unoccupied cells, so we need to keep that method.
 
 > Add the new `indexValidAndUnoccupied` method to the `Grid` class:
-> 
+>
 >       func indexValidAndUnoccupied(x: Int, y: Int) -> Bool {
 >           var indexValid = self.indexValid(x, y: y)
 >           if !indexValid {
@@ -30,16 +30,16 @@ Now all we need to do is use this method when we check how far we can move a til
 
 > [action]
 > Modify this part of the move method:
-> 
+>
 >           // find the farthest position by iterating in direction of the vector until reaching boarding of
 >           // grid or occupied cell
 >           while indexValid(newX+Int(direction.x), y: newY+Int(direction.y)) {
 >               newX += Int(direction.x)
 >               newY += Int(direction.y)
 >           }
-> 
+>
 > To use our new method:
-> 
+>
 >           // find the farthest position by iterating in direction of the vector until reaching boarding of
 >           // grid or occupied cell
 >           while indexValidAndUnoccupied(newX+Int(direction.x), y: newY+Int(direction.y)) {
@@ -57,14 +57,14 @@ The first part in adding this feature is extending our `Tile` class. It currentl
 
 > [action]
 > Open `Tile` class and add the following property:
-> 
+>
 >       var value: Int = 0
 
-Next we will add a couple of methods to `Tile`. When a tile gets initialized we need to assign a value to the new tile. In *2048* each tile is spawned with a value of 4 or 2. 
+Next we will add a couple of methods to `Tile`. When a tile gets initialized we need to assign a value to the new tile. In *2048* each tile is spawned with a value of 4 or 2.
 
 > [action]
 > Add the following init method to the `Tile` class:
-> 
+>
 >       func didLoadFromCCB() {
 >           value = Int(CCRANDOM_MINUS1_1() + 2) * 2
 >       }
@@ -74,9 +74,9 @@ This is a very simple implementation even though the part that generates the ran
 Next, we need to add a `didSet` property observer to `value`.
 
 > [action]
-> 
+>
 > Change the declaration of `value` to:
-> 
+>
 >       var value: Int = 0 {
 >           didSet {
 >               valueLabel.string = "\(value)"
@@ -95,11 +95,11 @@ Currently, we move the tile in the selected direction until we reach an occupied
 
 > [action]
 > Replace this block inside the `move` method:
-> 
+>
 >       if newX != currentX || newY != currentY {
 >           moveTile(tile, fromX: currentX, fromY: currentY, toX: newX, toY: newY)
 >       }
-> 
+>
 > With this one:
 >
 >       var performMove = false
@@ -134,7 +134,7 @@ As mentioned above, if we stop moving further because of an occupied index we di
 
 > [action]
 > Now let's implement the `mergeTilesAtindex` method in the `Grid` class:
-> 
+>
 >       func mergeTilesAtindex(x: Int, y: Int, withTileAtIndex otherX: Int, y otherY: Int) {
 >           // Update game data
 >           var mergedTile = gridArray[x][y]!
@@ -179,14 +179,14 @@ Since a new tile needs to be spawned upon each completed move, this functionalit
 
 > [action]
 > Add this variable definition to the beginning of the `move` method:
-> 
+>
 >       var movedTilesThisRound = false
 
-Next, we need to set this variable to `true` when we moved or merged a tile. 
+Next, we need to set this variable to `true` when we moved or merged a tile.
 
 > [action]
 > Update the following part of the `move` method and add the lines that set `movedTilesThisRound` to `true`:
-> 
+>
 >       if indexValid(newX+Int(direction.x), y: newY+Int(direction.y)) {
 >           // get the other tile
 >           var otherTileX = newX + Int(direction.x)
@@ -216,11 +216,11 @@ Next, we need to set this variable to `true` when we moved or merged a tile.
 
 **Pay close attention to the changes above!** We have added **two lines** that set `movedTilesThisRound` to `true`.
 
-Now there's only one change to the `move` method left. 
+Now there's only one change to the `move` method left.
 
 > [action]
 > Add the following lines to the end of the `move` method, **after all the loops have completed**:
-> 
+>
 >       if movedTilesThisRound {
 >           spawnRandomTile()
 >       }
@@ -239,18 +239,18 @@ The rules of *2048* don't allow a tile to merge twice within in one move. Here i
 
 At the top you can see the example scenario. On the bottom left you can see what is happening in our version of the game. The two "4" tiles merge to an "8" tile and then the merged "8" tile merges with the other "8" tile to a "16" tile. This shouldn't happen. On the right you can see the expected outcome. The merged "8" tile cannot merge with any other tile, because it already has been merged in this move, so two "8" tiles remain on the grid.
 
-To implement this we will need to add a `Bool` variable to our `Tile` that will remember if a `Tile` has already been merged in a move. 
+To implement this we will need to add a `Bool` variable to our `Tile` that will remember if a `Tile` has already been merged in a move.
 
 > [action]
 > Open `Tile` and add this property:
-> 
+>
 >       var mergedThisRound = false
 
-Now we have a property that allows us to store if a tile has been merged in a move or not. We will need to use this property within our `mergeTilesAtindex` and `move` methods. 
+Now we have a property that allows us to store if a tile has been merged in a move or not. We will need to use this property within our `mergeTilesAtindex` and `move` methods.
 
 > [action]
 > Add this line to `mergeTilesAtindex` after a value has been assigned to `otherTile`:
-> 
+>
 >       otherTile.mergedThisRound = true
 
 Now, whenever a tile gets merged, we set the flag to `true`. Remember, the `otherTile` is the tile that remains in the game and which's value is doubled.
@@ -259,11 +259,11 @@ Now that we know when a tile has been merged, we need to use that information in
 
 > [action]
 > Within the `move` method we perform this check to to determine if two tiles can be merged:
-> 
+>
 >       if tile.value == otherTile.value
-> 
+>
 > Now we need to extend this check. Tiles should only be merged when they have the same value **and** haven't been merged this move yet. Change the line above to look like this:
-> 
+>
 >       if tile.value == otherTile.value && !otherTile.mergedThisRound
 
 Great! Now we are correctly flagging tiles that already have been merged and checking for that flag when we are about to merge two tiles.
@@ -276,13 +276,13 @@ Inside our `move` method we already have a great position to add this functional
 
 > [action]
 > Change these lines inside the `move` method:
-> 
+>
 >       if movedTilesThisRound {
 >           spawnRandomTile()
 >       }
-> 
+>
 > To look like this:
-> 
+>
 >       if movedTilesThisRound {
 >           nextRound()
 >       }
@@ -291,7 +291,7 @@ We already had defined that a round is completed if at least one tile moved in a
 
 > [action]
 > Now all we need to do is add the `nextRound` method to `Grid`:
-> 
+>
 >       func nextRound() {
 >           spawnRandomTile()
 >           for column in gridArray {

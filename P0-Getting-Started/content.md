@@ -1,6 +1,6 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Cocos2D - Part 1!
-slug: part-1
+title: Getting Started with 2048!
+slug: getting-started
 ---
 
 #Getting Started
@@ -60,7 +60,7 @@ Now set up the second label:
 
 ![](addingScoreLabels_topRight.png)
 
-Notice that the two labels' *Position* attributes are the same in points, yet they're visibly different. That's because when we change the *Position Reference Corner*, we're changing what *Position* is based upon. This provides more flexibility when it comes to different screen sizes - the labels will automatically space themselves in the top corners. Go ahead and see for yourself! Go to Document -> Resolution -> Tablet Portrait. See how the labels are still positioned in the top corners of the screen? 
+Notice that the two labels' *Position* attributes are the same in points, yet they're visibly different. That's because when we change the *Position Reference Corner*, we're changing what *Position* is based upon. This provides more flexibility when it comes to different screen sizes - the labels will automatically space themselves in the top corners. Go ahead and see for yourself! Go to Document -> Resolution -> Tablet Portrait. See how the labels are still positioned in the top corners of the screen?
 
 Drag two more instances of *Label TTF* onto the screen so we can display the actual scores. The first label should be set up as following:
 

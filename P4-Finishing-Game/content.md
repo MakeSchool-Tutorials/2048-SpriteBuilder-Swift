@@ -1,6 +1,6 @@
 ---
-title: Build your own 2048 with SpriteBuilder and Swift - Part 5!
-slug: part-5
+title: Finishing the core gameplay
+slug: finishing-game
 ---
 
 #Finishing the Game
@@ -28,15 +28,15 @@ We will use this new integer variable to store the score of the game.
 
 As mentioned above, the score of the game increases when two tiles merge. The score increases by the combined value of both tiles. For example a merge between a "4" tile and another "4" tile will result in 8 points.
 
-The best place to add this functionality is the method where we perform the merge between to tiles: *mergeTilesAtindex.* 
+The best place to add this functionality is the method where we perform the merge between to tiles: *mergeTilesAtindex.*
 
 > [action]
 > Add a line to increase the score to the beginning of *mergeTilesAtindex* in *Grid*:
-> 
+>
 >       var mergedTile = gridArray[x][y]!
 >       var otherTile = gridArray[otherX][otherY]!
 >       score += mergedTile.value + otherTile.value
-> 
+>
 > **Attention:** you should only add the line that increases `score`!
 
 Now we are successfully keeping track of the current score of the game.
@@ -51,11 +51,11 @@ The change we need to make is relatively simple. `Grid` should always have a ref
 
 > [action]
 > Change the following line in `Grid.swift`:
-> 
+>
 >       var score: Int = 0
-> 
+>
 > to:
-> 
+>
 >       var score: Int = 0 {
 >           didSet {
 >               var mainScene = parent as! MainScene
@@ -81,16 +81,16 @@ Let's get started by implementing the win condition.
 
 ### Implementing the win condition
 
-Let's start by setting up a constant for the value of the final tile. 
+Let's start by setting up a constant for the value of the final tile.
 
 > [action]
 > Add this constant to the other constants in the `Grid` class:
-> 
+>
 >       let winTile = 8
 
 For debugging purposes we will set the `winTile` to be `8`. This way it will be a lot easier to test if the win condition works, reaching "2048" can take quite a lot of time ;)
 
-Now we will need to check if this win condition occurs. 
+Now we will need to check if this win condition occurs.
 
 > [action]
 > Add the following line the *mergeTilesAtindex* method in `Grid` in the same place you define your other `CCAction`s:
@@ -100,18 +100,18 @@ Now we will need to check if this win condition occurs.
       	} as! CCActionCallBlock
 >
 > Now let's add this `CCAction` to the `CCActionSequence` we call on *mergedTile*. Change:
-> 
+>
 > 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, remove]) as! CCActionSequence
-> 
+>
 >  To:
-> 
+>
 > 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, checkWin, remove]) as! CCActionSequence
 
 Once the value of the merged tile reaches the value of the *WIN_TILE* we call the *win* method! You can see that we have to check the value only after we *mergeTile*, as that's when we assign *otherTile* its new value.
 
 > [action]
 > Add the *win* method to *Grid*:
-> 
+>
 >       func win() {
 >           endGameWithMessage("You win!")
 >       }
@@ -123,7 +123,7 @@ We simply pass a different text to method for lost or won games.
 
 > [action]
 > Add the *endGameWithMessage* method to *Grid*:
-> 
+>
 >       func endGameWithMessage(message: String) {
 >           println(message)
 >       }
@@ -138,7 +138,7 @@ Detecting the losing situation is a little more complex then a win situation. A 
 
 > [action]
 > Add the following lines to the end of the *nextRound* method in *Grid*:
-> 
+>
 >       if !movePossible() {
 >           lose()
 >       }
@@ -149,7 +149,7 @@ Let's start with the *movePossible* method. The *movePossible* method reads the 
 
 > [action]
 > Add the *movePossible* method to *Grid*:
-> 
+>
 >       func movePossible() -> Bool {
 >           for i in 0..<gridSize {
 >               for j in 0..<gridSize {
@@ -182,7 +182,7 @@ To access a tile at an index we use a utility method which we need to add to our
 
 > [action]
 > Add the *tileForIndex* method to the *Grid* class:
-> 
+>
 >       func tileForIndex(x: Int, y: Int) -> Tile? {
 >           return indexValid(x, y: y) ? gridArray[x][y] : noTile
 >       }
@@ -193,7 +193,7 @@ Now there's one last method which we need to add to actually test the lose condi
 
 > [action]
 > Add the method to *Grid*:
-> 
+>
 >       func lose() {
 >           endGameWithMessage("You lose!")
 >       }
@@ -206,7 +206,7 @@ We have one little issue left; currently, it is really difficult to lose in the 
 
 > [action]
 > To make losing easier open *Tile.swift* and change the line in the *didLoadFromCCB* method that generates a random number to:
-> 
+>
 >           value = Int(CCRANDOM_MINUS1_1() * 201) + 201
 
 
@@ -220,11 +220,11 @@ Now that we have tested the new functionality we can reset the values that we ch
 
 > [action]
 > Change the line that sets the value in the *didLoadFromCCB* method of *Tile.swift* back to:
-> 
+>
 >       value = Int(CCRANDOM_MINUS1_1() + 2) * 2
-> 
+>
 > Additionally change the *winTile* constant in *Grid* to:
-> 
+>
 >       let winTile = 2048
 
 Great! Another step toward completing the game. Next we are going to take care of storing players' highscores.
@@ -253,7 +253,7 @@ Now we are storing the highscore but we are not updating the label that displays
 
 > [action]
 > Let's first add a method to *MainScene* that takes care of reading the newest highscore and updating the label to display it:
-> 
+>
 >       func updateHighscore() {
 >           var newHighscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
 >           highscoreLabel.string = "\(newHighscore)"
@@ -266,7 +266,7 @@ We need to call this method in two situations:
 
 > [action]
 > Add the following lines to *didLoadFromCCB* in *MainScene*:
-> 
+>
 >       NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: "highscore", options: .allZeros, context: nil)
 >       updateHighscore()
 
@@ -278,7 +278,7 @@ The second thing we do is call the *updateHighscore* method directly from *didLo
 
 > [action]
 > Now that we are observing a variable we need to add an *observeValueForKeyPath* method in *MainScene*:
-> 
+>
 >       override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
 >           if keyPath == "highscore" {
 >               updateHighscore()
@@ -290,4 +290,3 @@ You can see that we are now reacting to changes of `score` and `highscore`. If t
 Now you can run the new version of the game and see how the highscore is stored and displayed in the game:
 
 ![](./highscore.png)
-
