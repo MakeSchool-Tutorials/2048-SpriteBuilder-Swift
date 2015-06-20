@@ -68,7 +68,7 @@ Next, we need to set up the variables and methods that we have linked in our Spr
 >
 >       func newGame() {
 >           var mainScene: CCScene = CCBReader.loadAsScene("MainScene") as CCScene
->           CCDirector.sharedDirector().replaceScene(mainScene)
+>           CCDirector.sharedDirector().presentScene(mainScene)
 >       }
 
 This method simply reloads the *MainScene* which restarts the entire game.
