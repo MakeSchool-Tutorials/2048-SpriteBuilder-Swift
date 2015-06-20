@@ -3,7 +3,7 @@ title: Getting Started with 2048!
 slug: getting-started
 ---
 
-This tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours!
+This TEST tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours!
 
 You can find the entire code for this tutorial on [GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
 
