@@ -47,7 +47,7 @@ Finally, set up a custom class called *GameEnd* for the root node.
 
 ![](gameOver_classConnection.png)
 
-Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to XCode.**
+Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to Xcode.**
 
 #In Xcode
 
@@ -67,7 +67,7 @@ Next, we need to set up the variables and methods that we have linked in our Spr
 > Next, add the *newGame* method that will be called when a user hits the restart button on the *endGame* screen:
 >
 >       func newGame() {
->           var mainScene: CCScene = CCBReader.loadAsScene("MainScene") as CCScene
+>           var mainScene= CCBReader.loadAsScene("MainScene")
 >           CCDirector.sharedDirector().presentScene(mainScene)
 >       }
 
@@ -172,4 +172,8 @@ All this switch-case does is mapping a tile number to a color. Now your game sho
 
 **You're done!** Congratulations, you have come a really long way. I hope you enjoyed and once again learned a lot more about iOS and game development!
 
-Reminder: you can find [the entire project on GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
+#Solution
+
+The solution to this [tutorial is available on GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
+
+![](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)

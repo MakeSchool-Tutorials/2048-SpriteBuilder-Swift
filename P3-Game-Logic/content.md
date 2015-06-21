@@ -144,12 +144,15 @@ As mentioned above, if we stop moving further because of an occupied index we di
 >
 >           // Update the UI
 >           var otherTilePosition = positionForColumn(otherX, row: otherY)
->           var moveTo = CCActionMoveTo.actionWithDuration(0.2, position: otherTilePosition) as! CCActionMoveTo
->           var remove = CCActionRemove.action() as! CCActionRemove
->           var mergeTile = CCActionCallBlock.actionWithBlock { () -> Void in
->               otherTile.value *= 2
->           } as! CCActionCallBlock
->           var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, remove]) as! CCActionSequence
+>			var moveTo = CCActionMoveTo(duration:0.2, position: otherTilePosition)
+>		    var remove = CCActionRemove()
+>		    var mergeTile = CCActionCallBlock(block: { () -> Void in
+>		      	otherTile.value *= 2
+>		    })
+>		    var checkWin = CCActionCallBlock(block: { () -> Void in
+>		      	if otherTile.value == self.winTile {self.win()}
+>		    })
+>		    var sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
 >           mergedTile.runAction(sequence)
 >       }
 

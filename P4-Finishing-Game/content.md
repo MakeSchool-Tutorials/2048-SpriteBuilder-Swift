@@ -93,17 +93,17 @@ Now we will need to check if this win condition occurs.
 > [action]
 > Add the following line the *mergeTilesAtindex* method in `Grid` in the same place you define your other `CCAction`s:
 >
->		var checkWin = CCActionCallBlock.actionWithBlock { () -> Void in
-      	if otherTile.value == self.winTile {self.win()}
-      	} as! CCActionCallBlock
+>		var checkWin = CCActionCallBlock(block: { () -> Void in
+>	      if otherTile.value == self.winTile {self.win()}
+>	    })
 >
 > Now let's add this `CCAction` to the `CCActionSequence` we call on *mergedTile*. Change:
 >
-> 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, remove]) as! CCActionSequence
+> 		var sequence = CCActionSequence(array: [moveTo, mergeTile, remove])
 >
 >  To:
 >
-> 		var sequence = CCActionSequence.actionWithArray([moveTo, mergeTile, checkWin, remove]) as! CCActionSequence
+> 		var sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
 
 Once the value of the merged tile reaches the value of the *WIN_TILE* we call the *win* method! You can see that we have to check the value only after we *mergeTile*, as that's when we assign *otherTile* its new value.
 

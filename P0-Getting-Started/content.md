@@ -3,9 +3,27 @@ title: Getting Started with 2048!
 slug: getting-started
 ---
 
-This tutorial will explain in detail how to build the popular game *2048* from scratch, using SpriteBuilder, Swift, and Cocos2D. The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours!
+In this tutorial we will build Make2048 -- a clone of the popular mobile game [2048](https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805?mt=8). The gameplay itself is simple but coding the game comes with some puzzles and challenges. You will learn a lot in the next couple of hours! We will use Apple's new Swift programming language together with SpriteBuilder and Cocos2D.
 
-You can find the entire code for this tutorial on [GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
+<!-- If you aren't familiar with SpriteBuilder you should read our [SpriteBuilder beginner tutorial](https://www.makeschool.com/tutorials/getting-started-with-spritebuilder-and-swift/installing-spritebuilder) first since this tutorial assumes that you are familiar with basic SpriteBuilder tasks. Make sure you have both SpriteBuilder and Xcode installed! -->
+
+#What you will learn
+
+Throughout this tutorial you will learn many concepts including how to:
+
+- Think critically about game logic
+- Prototype a puzzle game without any assets
+- Chain CCActions together to animate from code
+
+#The finished product
+
+The final game will look like this:
+
+<!-- TODO: update with gif -->
+
+![](./SimulatorPolish.png)
+
+Let's get started with a blank SpriteBuilder project!
 
 #Set up the basic structure in SpriteBuilder
 
@@ -25,10 +43,10 @@ Now we can add the grid to the screen. We will only add a grid background in Spr
 
 For the Grid background we use a *Color Node*. Drag the *Color Node* onto the stage of MainScene.ccb. Apply the following settings to the node:
 
-*   The anchor point should be `(0.5, 0.5)`
-*   Position type should be *in percent of parent container*
-*   The position should be `(50%, 50%)`, this will center the node
-*   The size needs to be `(300, 300)`
+* The anchor point should be `(0.5, 0.5)`
+* Position type should be *in percent of parent container*
+* The position should be `(50%, 50%)`, this will center the node
+* The size needs to be `(300, 300)`
 
 Now a 300x300 grid background should be centered within *MainScene*.
 
@@ -40,10 +58,10 @@ We also need to set up some code connections for the grid. The grid will have a 
 
 Another important part of the *2048* UI are labels that display the score of the current game and the highscore. We are going to add these labels to *MainScene* as well. Add two instances *Label TTF* above the grid. The first should be set up as follows:
 
-* 	Position Reference Corner: `Top left`
+* Position Reference Corner: `Top left`
 *	Position: `(70.0, 30.0)`
-* 	Label text: `Score`
-* 	Font size: `18`
+* Label text: `Score`
+* Font size: `18`
 
 This is what it should look like when you're done:
 

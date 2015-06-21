@@ -202,9 +202,9 @@ The next method we are going to implement is the one that adds a tile at a speci
 >           tile.scale = 0
 >           addChild(tile)
 >           tile.position = positionForColumn(column, row: row)
->           var delay = CCActionDelay.actionWithDuration(0.3) as! CCActionDelay
->           var scaleUp = CCActionScaleTo.actionWithDuration(0.2, scale: 1) as! CCActionScaleTo
->           var sequence = CCActionSequence.actionWithArray([delay, scaleUp]) as! CCActionSequence
+>           var delay = CCActionDelay(duration: 0.3)
+>           var scaleUp = CCActionScaleTo(duration: 0.2, scale: 1)
+>           var sequence = CCActionSequence(array: [delay, scaleUp])
 >           tile.runAction(sequence)
 >       }
 

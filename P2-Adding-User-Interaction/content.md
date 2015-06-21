@@ -263,7 +263,7 @@ All this method does is checking wether the index is within the bounds of the tw
 >           gridArray[toX][toY] = gridArray[fromX][fromY]
 >           gridArray[fromX][fromY] = noTile
 >           var newPosition = positionForColumn(toX, row: toY)
->           var moveTo = CCActionMoveTo.actionWithDuration(0.2, position: newPosition) as! CCActionMoveTo
+>           var moveTo = CCActionMoveTo(duration: 0.2, position: newPosition)
 >           tile.runAction(moveTo)
 >       }
 
