@@ -235,13 +235,14 @@ In iOS, the easiest way to store simple information persistently is using *NSUse
 
 A good place to update the highscore is when the game ends.
 
-Add these lines to the end of *endGameWithMessage*:
+> [action]
+> Add these lines to the end of *endGameWithMessage*:
 >
-    let defaults = NSUserDefaults.standardUserDefaults()
-    var highscore = defaults.integerForKey("highscore")
-    if score > highscore {
-      defaults.setInteger(score, forKey: "highscore")
-    }
+>        let defaults = NSUserDefaults.standardUserDefaults()
+>        var highscore = defaults.integerForKey("highscore")
+>        if score > highscore {
+>            defaults.setInteger(score, forKey: "highscore")
+>        }
 
 What are we doing in these couple of lines? We are reading the current highscore from *NSUserDefaults.* If the score of the current game is a new highscore, we store the new value in *NSUserDefauts*.
 

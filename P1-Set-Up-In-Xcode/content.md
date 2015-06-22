@@ -43,6 +43,8 @@ The above lines create variables that reference the grid and both score labels t
 >       weak var valueLabel: CCLabelTTF!
 >       weak var backgroundNode: CCNodeColor!
 
+<!-- Make School -->
+
 > [info]
 > Remember, we always use the format `weak var connectionName: ConnectionClass!` for code connections to SpriteBuilder!
 
@@ -160,8 +162,6 @@ As you can see, all of these methods are not too complicated - the most complica
 >
 >       var gridArray = [[Tile?]]()
 >       var noTile: Tile? = nil
-
-
 
 The `gridArray` is a two dimensional array that will store the tile for each index of the grid. The `noTile` variable will represent an empty cell in the `gridArray`. Because arrays in Swift are typed, we need to make `gridArray` of type `Tile?`. This will allow us to store `nil` inside of the array.
 

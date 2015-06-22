@@ -11,6 +11,7 @@ Our current mechanism moves each tile in the direction of the movement until it 
 
 Instead of changing the `indexValid` method we will be adding a new method called `indexValidAndUnoccupied`. The `indexValid` method is used in multiple places that only need to check if a value is within the boundaries of the `gridArray` and that do not care about occupied or unoccupied cells, so we need to keep that method.
 
+> [action]
 > Add the new `indexValidAndUnoccupied` method to the `Grid` class:
 >
 >       func indexValidAndUnoccupied(x: Int, y: Int) -> Bool {
@@ -72,7 +73,6 @@ This is a very simple implementation even though the part that generates the ran
 Next, we need to add a `didSet` property observer to `value`.
 
 > [action]
->
 > Change the declaration of `value` to:
 >
 >       var value: Int = 0 {

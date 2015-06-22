@@ -25,6 +25,7 @@ In the first step we will be moving all tiles as far as possible in the selected
 
 For this game it will be most intuitive for the user to swipe in the direction in which the tiles shall move. Luckily iOS provides a very simple API to capture swipes. We can use the `UIGestureRecognizer`.
 
+> [action]
 > Add this method to the `Grid` class:
 >
 >       func setupGestures() {
@@ -207,20 +208,21 @@ The last open question is, **how is the movement of each individual tile impleme
 
 This happens in the most inner *while* loop of the *move* method. Once we have selected an index on the grid and ensured that we have a tile stored at that index, we move that tile as far as possible. We apply the movement vector on the selected tile until we reach an invalid index. This is the section of the move method that implements the actual tile movement:
 
-                    // get tile at current index
-                    if let tile = gridArray[currentX][currentY] {
-                        // if tile exists at index
-                        var newX = currentX
-                        var newY = currentY
-                        // find the farthest position by iterating in direction of the vector until reaching boarding of
-                        // grid or occupied cell
-                        while indexValidAndUnoccupied(newX+Int(direction.x), y: newY+Int(direction.y)) {
-                            newX += Int(direction.x)
-                            newY += Int(direction.y)
-                        }
-                        if newX != currentX || newY != currentY {
-                            moveTile(tile, fromX: currentX, fromY: currentY, toX: newX, toY: newY)
-                        }
+                // get tile at current index
+                if let tile = gridArray[currentX][currentY] {
+                    // if tile exists at index
+                    var newX = currentX
+                    var newY = currentY
+                    // find the farthest position by iterating in direction of the vector until reaching boarding of
+                    // grid or occupied cell
+                    while indexValidAndUnoccupied(newX+Int(direction.x), y: newY+Int(direction.y)) {
+                        newX += Int(direction.x)
+                        newY += Int(direction.y)
+                    }
+                    if newX != currentX || newY != currentY {
+                        moveTile(tile, fromX: currentX, fromY: currentY, toX: newX, toY: newY)
+                    }
+                }
 
 
 As you can see we have a `while` loop that moves the selected tile as far as possible in the direction of the movement vector. It terminates once the tile reaches one of the edges of the grid.
@@ -241,6 +243,7 @@ Good news: the methods we are going to add in this step are lot shorter than the
 
 Let's start with the `indexValid` method. The `indexValid` method will receive a index position and will return a *Bool* value that describes wether the provided index is valid (within the grid) or not.
 
+> [action]
 > Add the `indexValid` method to the `Grid` class:
 >
 >       func indexValid(x: Int, y: Int) -> Bool {
@@ -257,6 +260,7 @@ Let's start with the `indexValid` method. The `indexValid` method will receive a
 
 All this method does is checking wether the index is within the bounds of the two dimensional array.
 
+> [action]
 > Now you need to add the `moveTile` method to the `Grid` class:
 >
 >       func moveTile(tile: Tile, fromX: Int, fromY: Int, toX: Int, toY: Int) {

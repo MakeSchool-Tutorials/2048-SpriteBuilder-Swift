@@ -11,41 +11,42 @@ Our game can already detect when a player has won or lost. However, we are curre
 
 #In SpriteBuilder
 
-Open the SpriteBuilder project and create a new CCB *Node* file:
-
-![](./SpriteBuilder_gameEnd.png)
-
-Set the *root node size* to `(320, 200)` and the *anchor point* to `(0.5, 0.5)`:
-
-![](./SpriteBuilder_gameEnd_size.png)
-
-Add a *CCNodeColor* to this node:
-
-![](./SpriteBuilder_gameEnd_color.png)
-
-Set the *width* and the *height* to `100%` of the parent container. Set the *background color* to `green` and the *opacity* to `0.8`. Now we have a green slightly transparent background for our game over screen.
-
-Now we'll need to add two labels to display a game over message and the score that the player has achieved. Additionally we are going to add a button to restart the game.
-
-Add two labels and a button to the node so that your game end screen looks similar to this:
-
-![](gameOver_fullLook.png)
-
-Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button. Link the top label to a *messageLabel* variable:
-
-![](gameOver_messageLabel.png)
-
-Link the displayed score to a variable called *scoreLabel*:
-
-![](gameOver_scoreLabel.png)
-
-Set up a selector called `newGame` for the `Restart` button:
-
-![](gameOver_restartButton.png)
-
-Finally, set up a custom class called *GameEnd* for the root node.
-
-![](gameOver_classConnection.png)
+> [action]
+> Open the SpriteBuilder project and create a new CCB *Node* file:
+>
+> ![](./SpriteBuilder_gameEnd.png)
+>
+> Set the *root node size* to `(320, 200)` and the *anchor point* to `(0.5, 0.5)`:
+>
+> ![](./SpriteBuilder_gameEnd_size.png)
+>
+> Add a *CCNodeColor* to this node:
+>
+> ![](./SpriteBuilder_gameEnd_color.png)
+>
+> Set the *width* and the *height* to `100%` of the parent container. Set the *background color* to `green` and the *opacity* to `0.8`. Now we have a green slightly transparent background for our game over screen.
+>
+> Now we'll need to add two labels to display a game over message and the score that the player has achieved. Additionally we are going to add a button to restart the game.
+>
+> Add two labels and a button to the node so that your game end screen looks similar to this:
+>
+> ![](gameOver_fullLook.png)
+>
+> Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button. Link the top label to a *messageLabel* variable:
+>
+> ![](gameOver_messageLabel.png)
+>
+> Link the displayed score to a variable called *scoreLabel*:
+>
+> ![](gameOver_scoreLabel.png)
+>
+> Set up a selector called `newGame` for the `Restart` button:
+>
+> ![](gameOver_restartButton.png)
+>
+> Finally, set up a custom class called *GameEnd* for the root node.
+>
+> ![](gameOver_classConnection.png)
 
 Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to Xcode.**
 
