@@ -68,7 +68,7 @@ Next, we need to set up the variables and methods that we have linked in our Spr
 > Next, add the *newGame* method that will be called when a user hits the restart button on the *endGame* screen:
 >
 >       func newGame() {
->           var mainScene= CCBReader.loadAsScene("MainScene")
+>           let mainScene= CCBReader.loadAsScene("MainScene")
 >           CCDirector.sharedDirector().presentScene(mainScene)
 >       }
 
@@ -93,7 +93,7 @@ Now we need to add some code to display the *GameEnd* as a popup once a game end
 > [action]
 > Add the following lines to the beginning of the *endGameWithMessage* method in *Grid*:
 >
->       var gameEndPopover = CCBReader.load("GameEnd") as! GameEnd
+>       let gameEndPopover = CCBReader.load("GameEnd") as! GameEnd
 >       gameEndPopover.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
 >       gameEndPopover.position = ccp(0.5, 0.5)
 >       gameEndPopover.zOrder = Int.max

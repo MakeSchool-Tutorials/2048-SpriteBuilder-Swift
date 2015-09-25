@@ -15,7 +15,7 @@ Instead of changing the `indexValid` method we will be adding a new method calle
 > Add the new `indexValidAndUnoccupied` method to the `Grid` class:
 >
 >       func indexValidAndUnoccupied(x: Int, y: Int) -> Bool {
->           var indexValid = self.indexValid(x, y: y)
+>           let indexValid = self.indexValid(x, y: y)
 >           if !indexValid {
 >               return false
 >           }
@@ -137,22 +137,22 @@ As mentioned above, if we stop moving further because of an occupied index we di
 >
 >       func mergeTilesAtindex(x: Int, y: Int, withTileAtIndex otherX: Int, y otherY: Int) {
 >           // Update game data
->           var mergedTile = gridArray[x][y]!
->           var otherTile = gridArray[otherX][otherY]!
+>           let mergedTile = gridArray[x][y]!
+>           let otherTile = gridArray[otherX][otherY]!
 >
 >           gridArray[x][y] = noTile
 >
 >           // Update the UI
 >           var otherTilePosition = positionForColumn(otherX, row: otherY)
->			var moveTo = CCActionMoveTo(duration:0.2, position: otherTilePosition)
->		    var remove = CCActionRemove()
->		    var mergeTile = CCActionCallBlock(block: { () -> Void in
+>			let moveTo = CCActionMoveTo(duration:0.2, position: otherTilePosition)
+>		    let remove = CCActionRemove()
+>		    let mergeTile = CCActionCallBlock(block: { () -> Void in
 >		      	otherTile.value *= 2
 >		    })
->		    var checkWin = CCActionCallBlock(block: { () -> Void in
+>		    let checkWin = CCActionCallBlock(block: { () -> Void in
 >		      	if otherTile.value == self.winTile {self.win()}
 >		    })
->		    var sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
+>		    let sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
 >           mergedTile.runAction(sequence)
 >       }
 

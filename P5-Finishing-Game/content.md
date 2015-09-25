@@ -99,11 +99,11 @@ Now we will need to check if this win condition occurs.
 >
 > Now let's add this `CCAction` to the `CCActionSequence` we call on *mergedTile*. Change:
 >
-> 		var sequence = CCActionSequence(array: [moveTo, mergeTile, remove])
+> 		let sequence = CCActionSequence(array: [moveTo, mergeTile, remove])
 >
 >  To:
 >
-> 		var sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
+> 		let sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
 
 Once the value of the merged tile reaches the value of the *WIN_TILE* we call the *win* method! You can see that we have to check the value only after we *mergeTile*, as that's when we assign *otherTile* its new value.
 
@@ -152,11 +152,11 @@ Let's start with the *movePossible* method. The *movePossible* method reads the 
 >           for i in 0..<gridSize {
 >               for j in 0..<gridSize {
 >                   if let tile = gridArray[i][j] {
->                       var topNeighbor = tileForIndex(i, y: j+1)
->                       var bottomNeighbor = tileForIndex(i, y: j-1)
->                       var leftNeighbor = tileForIndex(i-1, y: j)
->                       var rightNeighbor = tileForIndex(i+1, y: j)
->                       var neighbors = [topNeighbor, bottomNeighbor, leftNeighbor, rightNeighbor]
+>                       let topNeighbor = tileForIndex(i, y: j+1)
+>                       let bottomNeighbor = tileForIndex(i, y: j-1)
+>                       let leftNeighbor = tileForIndex(i-1, y: j)
+>                       let rightNeighbor = tileForIndex(i+1, y: j)
+>                       let neighbors = [topNeighbor, bottomNeighbor, leftNeighbor, rightNeighbor]
 >                       for neighbor in neighbors {
 >                           if let neighborTile = neighbor {
 >                               if neighborTile.value == tile.value {
@@ -239,9 +239,10 @@ A good place to update the highscore is when the game ends.
 > Add these lines to the end of *endGameWithMessage*:
 >
 >        let defaults = NSUserDefaults.standardUserDefaults()
->        var highscore = defaults.integerForKey("highscore")
+>        let highscore = defaults.integerForKey("highscore")
 >        if score > highscore {
 >            defaults.setInteger(score, forKey: "highscore")
+>            defaults.synchronize()
 >        }
 
 What are we doing in these couple of lines? We are reading the current highscore from *NSUserDefaults.* If the score of the current game is a new highscore, we store the new value in *NSUserDefauts*.
@@ -254,7 +255,7 @@ Now we are storing the highscore but we are not updating the label that displays
 > Let's first add a method to *MainScene* that takes care of reading the newest highscore and updating the label to display it:
 >
 >       func updateHighscore() {
->           var newHighscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+>           let newHighscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
 >           highscoreLabel.string = "\(newHighscore)"
 >       }
 

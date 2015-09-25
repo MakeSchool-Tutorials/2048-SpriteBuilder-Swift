@@ -29,19 +29,19 @@ For this game it will be most intuitive for the user to swipe in the direction i
 > Add this method to the `Grid` class:
 >
 >       func setupGestures() {
->           var swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeft")
+>           let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeft")
 >           swipeLeft.direction = .Left
 >           CCDirector.sharedDirector().view.addGestureRecognizer(swipeLeft)
 >
->           var swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRight")
+>           let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRight")
 >           swipeRight.direction = .Right
 >           CCDirector.sharedDirector().view.addGestureRecognizer(swipeRight)
 >
->           var swipeUp = UISwipeGestureRecognizer(target: self, action: "swipeUp")
+>           let swipeUp = UISwipeGestureRecognizer(target: self, action: "swipeUp")
 >           swipeUp.direction = .Up
 >           CCDirector.sharedDirector().view.addGestureRecognizer(swipeUp)
 >
->           var swipeDown = UISwipeGestureRecognizer(target: self, action: "swipeDown")
+>           let swipeDown = UISwipeGestureRecognizer(target: self, action: "swipeDown")
 >           swipeDown.direction = .Down
 >           CCDirector.sharedDirector().view.addGestureRecognizer(swipeDown)
 >       }
@@ -129,8 +129,8 @@ I will provide this first version of the move method for you and walk through it
 >           var currentY = 0
 >           // Move to relevant edge by applying direction until reaching border
 >           while indexValid(currentX, y: currentY) {
->               var newX = currentX + Int(direction.x)
->               var newY = currentY + Int(direction.y)
+>               let newX = currentX + Int(direction.x)
+>               let newY = currentY + Int(direction.y)
 >               if indexValid(newX, y: newY) {
 >                   currentX = newX
 >                   currentY = newY
@@ -266,8 +266,8 @@ All this method does is checking wether the index is within the bounds of the tw
 >       func moveTile(tile: Tile, fromX: Int, fromY: Int, toX: Int, toY: Int) {
 >           gridArray[toX][toY] = gridArray[fromX][fromY]
 >           gridArray[fromX][fromY] = noTile
->           var newPosition = positionForColumn(toX, row: toY)
->           var moveTo = CCActionMoveTo(duration: 0.2, position: newPosition)
+>           let newPosition = positionForColumn(toX, row: toY)
+>           let moveTo = CCActionMoveTo(duration: 0.2, position: newPosition)
 >           tile.runAction(moveTo)
 >       }
 
