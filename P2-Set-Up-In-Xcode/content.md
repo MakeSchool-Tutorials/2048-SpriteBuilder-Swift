@@ -87,7 +87,7 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 > Add the following method to the `Grid` class:
 >
 >       func setupBackground() {
->           var tile = CCBReader.load("Tile") as! Tile
+>           let tile = CCBReader.load("Tile") as! Tile
 >           columnWidth = tile.contentSize.width
 >           columnHeight = tile.contentSize.height
 >
@@ -97,10 +97,10 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 >           var x = tileMarginHorizontal
 >           var y = tileMarginVertical
 >
->           for i in 0..<gridSize {
+>           for _ in 0..<gridSize {
 >               x = tileMarginHorizontal
->               for j in 0..<gridSize {
->                   var backgroundTile = CCNodeColor.nodeWithColor(CCColor.grayColor())
+>               for _ in 0..<gridSize {
+>                   let backgroundTile = CCNodeColor.nodeWithColor(CCColor.grayColor())
 >                   backgroundTile.contentSize = CGSize(width: columnWidth, height: columnHeight)
 >                   backgroundTile.position = CGPoint(x: x, y: y)
 >                   addChild(backgroundTile)
@@ -112,7 +112,7 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 
 This is a lot of code, but don't worry - all of it is fairly straightforward. First we load a `Tile.ccb` to read the height and width of a single tile. Then we subtract the width of all tiles we need to render from the width of the grid to calculate the available width. Once we have the available width we can calculate the available horizontal margin between tiles. We do the same for the height and the vertical margin.
 
-Once we know the margins we run through a two dimensional loop to create all tiles. We start at the first row (bottom) and render all columns of the first row (from left to right). Once we reach the last column we move to the next row. We repeat until we reach the last column of the last row (top right). The following image visualizes the loop that renders the tiles:
+Once we know the margins we run through a two dimensional loop to create all tiles. Swift allows the use of an underscore instead of a variable name in cases where the index in the loop isn't used.  We start at the first row (bottom) and render all columns of the first row (from left to right). Once we reach the last column we move to the next row. We repeat until we reach the last column of the last row (top right). The following image visualizes the loop that renders the tiles:
 
 ![](./RenderingGrid.png)
 
@@ -182,8 +182,8 @@ First we are going to add the `positionForColumn(:Row:)` method. This method use
 > Add this method to the `Grid` class:
 >
 >       func positionForColumn(column: Int, row: Int) -> CGPoint {
->           var x = tileMarginHorizontal + CGFloat(column) * (tileMarginHorizontal + columnWidth)
->           var y = tileMarginVertical + CGFloat(row) * (tileMarginVertical + columnHeight)
+>           let x = tileMarginHorizontal + CGFloat(column) * (tileMarginHorizontal + columnWidth)
+>           let y = tileMarginVertical + CGFloat(row) * (tileMarginVertical + columnHeight)
 >           return CGPoint(x: x, y: y)
 >       }
 
@@ -197,14 +197,14 @@ The next method we are going to implement is the one that adds a tile at a speci
 > Add this method the `Grid` class:
 >
 >       func addTileAtColumn(column: Int, row: Int) {
->           var tile = CCBReader.load("Tile") as! Tile
+>           let tile = CCBReader.load("Tile") as! Tile
 >           gridArray[column][row] = tile
 >           tile.scale = 0
 >           addChild(tile)
 >           tile.position = positionForColumn(column, row: row)
->           var delay = CCActionDelay(duration: 0.3)
->           var scaleUp = CCActionScaleTo(duration: 0.2, scale: 1)
->           var sequence = CCActionSequence(array: [delay, scaleUp])
+>           let delay = CCActionDelay(duration: 0.3)
+>           let scaleUp = CCActionScaleTo(duration: 0.2, scale: 1)
+>           let sequence = CCActionSequence(array: [delay, scaleUp])
 >           tile.runAction(sequence)
 >       }
 
@@ -242,7 +242,7 @@ Now we are going to call the `spawnRandomTile` method for each start tile.
 > Add this method to the `Grid` class:
 >
 >       func spawnStartTiles() {
->           for i in 0..<startTiles {
+>           for _ in 0..<startTiles {
 >               spawnRandomTile()
 >           }
 >       }
