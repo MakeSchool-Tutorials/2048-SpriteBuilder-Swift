@@ -21,7 +21,7 @@ The final game will look like this:
 
 <!-- TODO: update with gif -->
 
-![](./SimulatorPolish.png)
+![The finished game](./SimulatorPolish.png)
 
 #Feedback
 
