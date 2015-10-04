@@ -85,7 +85,7 @@ This property observer just updates the text of the label with the current value
 
 Well done! Now you should see the initial tiles spawning with values of 4 or 2:
 
-![](./Simulator.png)
+![Spawning tiles](./Simulator.png)
 
 Now that tiles have values we are able to check if two tiles could be merged or not. We will need to add this check in our `move` method.
 
@@ -172,7 +172,7 @@ Now you will be able to merge two tiles with the same value. Since we currently 
 
 Once you got that the merging should look like this:
 
-![](./Merge.gif)
+![Merging](./Merge.gif)
 
 #Spawn new tiles each round
 
@@ -230,7 +230,7 @@ Now there's only one change to the `move` method left.
 
 Now you will spawn a new tile whenever the existing tiles have been moved or merged! **Play the new version of the game to test this feature!** After a while your grid should look similar to this:
 
-![](SimulatorFull.png)
+![Almost a full game](SimulatorFull.png)
 
 **This is basically a playable game already, well done!** If you played long enough you will have realized that there is a little issue with the game. Unlike the original *2048* a tile that has been merged in this move can be merged again! We are going to fix this in the next step.
 
@@ -238,7 +238,7 @@ Now you will spawn a new tile whenever the existing tiles have been moved or mer
 
 The rules of *2048* don't allow a tile to merge twice within in one move. Here is an illustration of an example situation assuming an upward tile movement:
 
-![](./TileMerge.png)
+![Merging tiles twice in one move](./TileMerge.png)
 
 At the top you can see the example scenario. On the bottom left you can see what is happening in our version of the game. The two "4" tiles merge to an "8" tile and then the merged "8" tile merges with the other "8" tile to a "16" tile. This shouldn't happen. On the right you can see the expected outcome. The merged "8" tile cannot merge with any other tile, because it already has been merged in this move, so two "8" tiles remain on the grid.
 
