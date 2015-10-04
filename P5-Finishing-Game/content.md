@@ -63,7 +63,7 @@ The change we need to make is relatively simple. `Grid` should always have a ref
 
  **Well done!** Now you can play the game and should see the score increasing:
 
-![](./score.gif)
+![Increasing the score](./score.gif)
 
 Now let's determine when a game is over so that we can store a highscore!
 
@@ -210,7 +210,7 @@ We have one little issue left; currently, it is really difficult to lose in the 
 
 Now the tile numbers will be so widely spread that it is very easy to lose. **Run the new version of the game.** After a couple of moves your grid should look like this:
 
-![](./SimulatorWow.png)
+![Wide spread tiles](./SimulatorWow.png)
 
 Additionally you should see a log message "**You lose!"** in the Xcode console. We now can detect if a player wins or loses the game!
 
@@ -289,4 +289,4 @@ You can see that we are now reacting to changes of `score` and `highscore`. If t
 
 Now you can run the new version of the game and see how the highscore is stored and displayed in the game:
 
-![](./highscore.png)
+![Highscore](./highscore.png)
