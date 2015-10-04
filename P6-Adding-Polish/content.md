@@ -14,15 +14,15 @@ Our game can already detect when a player has won or lost. However, we are curre
 > [action]
 > Open the SpriteBuilder project and create a new CCB *Node* file:
 >
-> ![](./SpriteBuilder_gameEnd.png)
+> ![Create a new CCB Node](./SpriteBuilder_gameEnd.png)
 >
 > Set the *root node size* to `(320, 200)` and the *anchor point* to `(0.5, 0.5)`:
 >
-> ![](./SpriteBuilder_gameEnd_size.png)
+> ![Setting a root node size](./SpriteBuilder_gameEnd_size.png)
 >
 > Add a *CCNodeColor* to this node:
 >
-> ![](./SpriteBuilder_gameEnd_color.png)
+> ![Adding color](./SpriteBuilder_gameEnd_color.png)
 >
 > Set the *width* and the *height* to `100%` of the parent container. Set the *background color* to `green` and the *opacity* to `0.8`. Now we have a green slightly transparent background for our game over screen.
 >
@@ -30,23 +30,23 @@ Our game can already detect when a player has won or lost. However, we are curre
 >
 > Add two labels and a button to the node so that your game end screen looks similar to this:
 >
-> ![](gameOver_fullLook.png)
+> ![Adding labels and a button](gameOver_fullLook.png)
 >
 > Now we need to set up some code connections. We need to change the text label that displays the win/lose text and we need to update the score that is displayed. Additionally we need to link a method to the `Restart` button. Link the top label to a *messageLabel* variable:
 >
-> ![](gameOver_messageLabel.png)
+> ![Game over label](gameOver_messageLabel.png)
 >
 > Link the displayed score to a variable called *scoreLabel*:
 >
-> ![](gameOver_scoreLabel.png)
+> ![Game over score label](gameOver_scoreLabel.png)
 >
 > Set up a selector called `newGame` for the `Restart` button:
 >
-> ![](gameOver_restartButton.png)
+> ![Set up a selector](gameOver_restartButton.png)
 >
 > Finally, set up a custom class called *GameEnd* for the root node.
 >
-> ![](gameOver_classConnection.png)
+> ![Set up a custom class](gameOver_classConnection.png)
 
 Now we are done with the setup in SpriteBuilder. **Be sure to publish the project and before switching to Xcode.**
 
@@ -102,7 +102,7 @@ Now we need to add some code to display the *GameEnd* as a popup once a game end
 
  **Now everything is in place!** We are setting the game end screen up and presenting it when a game terminates. You should now test this feature (hint: changing the *winTile* value makes testing a lot easier). When you win or lose a game you should see a result similar to this:
 
-![](./SimulatorComplete.png)
+![Almost the full game](./SimulatorComplete.png)
 
 Basically the game is complete now! There's one minor detail missing: changing the color of tiles depending on their value. That's the last polishing step in this tutorial.
 
@@ -169,7 +169,7 @@ This is the last step and it isn't going to be very complicated. You only need t
 
 All this switch-case does is mapping a tile number to a color. Now your game should look a little more colorful:
 
-![](./SimulatorPolish.png)
+![The complete game](./SimulatorPolish.png)
 
 **You're done!** Congratulations, you have come a really long way. I hope you enjoyed and once again learned a lot more about iOS and game development!
 
@@ -177,4 +177,4 @@ All this switch-case does is mapping a tile number to a color. Now your game sho
 
 The solution to this [tutorial is available on GitHub](https://github.com/MakeSchool/2048-SpriteBuilder-Swift).
 
-![](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)
+![Github lab cat](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)
