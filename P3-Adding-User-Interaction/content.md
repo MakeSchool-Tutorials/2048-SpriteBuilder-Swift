@@ -104,7 +104,7 @@ Great! Now we need to implement the *move* method that we are calling here. The 
 
 This is a good time to do some recap on the rules that determine the tile movement in *2048*. The most important one is the order in which the tiles are moved. Here's an illustrated example of a movement to the left, that shows how each individual tile is moved:
 
-![](./TileMovement.png)
+![Moving the tiles](./TileMovement.png)
 
 When moving to the left, the left most tile is moved first. When moving to the right the right most tile is moved first, etc. Then the second most left/right tile is moved, etc. This works the same way for moving tiles up or down. In this case the tile with number "2" is moved first. Since there are no tiles in the way it is moved entirely to the left side. In the second part of the movement tile "4" is moved. It cannot be moved entirely to the left because tile "2" occupies this spot. That's why it is moved to the second most left spot. *Note: the player will never see the intermediate step (Move Part 1) of the tile movement it is only illustrated here to explain the rules of 2048.*
 
@@ -197,7 +197,7 @@ The bottom image illustrates how the second loop iterates through all tiles from
 
 For this example we assume a movement to the right:
 
-![](./TileSearch.png)
+![Finding tiles](./TileSearch.png)
 
 Now you should understand:
 
@@ -285,6 +285,6 @@ You have completed a huge amount of steps so far:
 
 Now it's once again time to run the game and take a look at the results. You should be able to move the tiles from one edge to another by swiping in that direction:
 
-![](./SwipeMove.gif)
+![Swiping to move](./SwipeMove.gif)
 
 **Well done!** Now the game already looks a lot like 2048. As you can see in the little demo above, tiles can overlap at the moment. Fixing this is the next little challenge we are going to tackle!
