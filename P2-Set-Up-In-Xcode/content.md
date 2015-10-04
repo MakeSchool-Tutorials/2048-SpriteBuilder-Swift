@@ -6,7 +6,7 @@ slug: set-up-in-xcode
 Before we start implementing the actual game logic we need to create classes and variables for the code connections we have created in SpriteBuilder.
 
 Let's start with the `Grid` class. Select File -> New -> File, then do the following:
-![](xcode_newClass.png)
+![New class in Xcode](xcode_newClass.png)
 
 Since the Grid has a type of *Color Node* in SpriteBuilder it needs to inherit from *CCNodeColor*. The Swift class always needs to match the node type in SpriteBuilder.
 
@@ -51,7 +51,7 @@ The above lines create variables that reference the grid and both score labels t
 
 Now we have set up all required code connections and you should be able to run the game for the first time. Hit the run button in Xcode and you should see this game on the iPhone simulator:
 
-![](./Simulator_first.png)
+![Running the game for the first time](./Simulator_first.png)
 
 Pretty empty - but it's up and running. Next we will render 16 cells as background for our grid.
 
@@ -114,7 +114,7 @@ This is a lot of code, but don't worry - all of it is fairly straightforward. Fi
 
 Once we know the margins we run through a two dimensional loop to create all tiles. Swift allows the use of an underscore instead of a variable name in cases where the index in the loop isn't used.  We start at the first row (bottom) and render all columns of the first row (from left to right). Once we reach the last column we move to the next row. We repeat until we reach the last column of the last row (top right). The following image visualizes the loop that renders the tiles:
 
-![](./RenderingGrid.png)
+![Rendering the grid](./RenderingGrid.png)
 
 Now that you understand the rendering code we just need to call it. When working with scenes created in SpriteBuilder the method `didLoadFromCCB` is the right place to perform modifications that shall happen as soon as the scene gets initialized.
 
@@ -127,7 +127,7 @@ Now that you understand the rendering code we just need to call it. When working
 
 Now the background will be rendered as soon as the `MainScene.ccb` is loaded. You can run the app now and should see following result on the screen:
 
-![](./Simulator_grid.png)
+![The grid](./Simulator_grid.png)
 
 Well done! This is starting to look like a real game. Next, we are going to spawn our first tiles.
 
@@ -271,6 +271,6 @@ We setup `gridArray` and store the `noTile` value for each index. Then we call `
 
 **Now it is time to run the app and check if everything worked out.** When the app started you should see something similar to this:
 
-![](./Simulator_spawning.png)
+![Spawning](./Simulator_spawning.png)
 
 We set up the basic project in this step. We added the data model for our game and already included a system that allows to add tiles with animations. **Well done!**
