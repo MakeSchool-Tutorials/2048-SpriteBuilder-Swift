@@ -149,10 +149,7 @@ As mentioned above, if we stop moving further because of an occupied index we di
 >		    let mergeTile = CCActionCallBlock(block: { () -> Void in
 >		      	otherTile.value *= 2
 >		    })
->		    let checkWin = CCActionCallBlock(block: { () -> Void in
->		      	if otherTile.value == self.winTile {self.win()}
->		    })
->		    let sequence = CCActionSequence(array: [moveTo, mergeTile, checkWin, remove])
+>		    let sequence = CCActionSequence(array: [moveTo, mergeTile, remove])
 >           mergedTile.runAction(sequence)
 >       }
 
