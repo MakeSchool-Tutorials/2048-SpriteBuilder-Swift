@@ -267,10 +267,10 @@ We need to call this method in two situations:
 > [action]
 > Add the following lines to *didLoadFromCCB* in *MainScene*:
 >
->       NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: "highscore", options: .allZeros, context: nil)
+>       NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: "highscore", options: [], context: nil)
 >       updateHighscore()
 
-We are doing two things here. We observe the highscore, just as we observe the score value of the *Grid*. This means whenever the highscore stored in the *NSUserDefaults* changes this class will be notified (the *observeValueForKeyPath* will be called).
+We are doing two things here. We observe the highscore, just as we observe the score value of the *Grid*. This means whenever the highscore stored in the *NSUserDefaults* changes this class will be notified (the *observeValueForKeyPath* method will be called).
 
 <!--TODO: explain KVO-->
 
@@ -279,7 +279,7 @@ The second thing we do is call the *updateHighscore* method directly from *didLo
 > [action]
 > Now that we are observing a variable we need to add an *observeValueForKeyPath* method in *MainScene*:
 >
->       override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+>       override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 >           if keyPath == "highscore" {
 >               updateHighscore()
 >           }
