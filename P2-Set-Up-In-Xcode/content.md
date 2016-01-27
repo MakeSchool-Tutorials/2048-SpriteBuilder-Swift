@@ -100,7 +100,7 @@ Now we need to add a method that renders 16 empty cells to our grid. We will cal
 >           for _ in 0..<gridSize {
 >               x = tileMarginHorizontal
 >               for _ in 0..<gridSize {
->                   let backgroundTile = CCNodeColor.nodeWithColor(CCColor.grayColor())
+>                   let backgroundTile = CCNodeColor(color: CCColor.grayColor())
 >                   backgroundTile.contentSize = CGSize(width: columnWidth, height: columnHeight)
 >                   backgroundTile.position = CGPoint(x: x, y: y)
 >                   addChild(backgroundTile)
@@ -119,7 +119,7 @@ Once we know the margins we run through a two dimensional loop to create all til
 Now that you understand the rendering code we just need to call it. When working with scenes created in SpriteBuilder the method `didLoadFromCCB` is the right place to perform modifications that shall happen as soon as the scene gets initialized.
 
 > [action]
-> Let's call our new method from `didLoadFromCCB` by adding this implementation to `Grid.swift`:
+> Let's call our new method from `didLoadFromCCB` by adding this implementation to your `Grid` class:
 >
 >       func didLoadFromCCB() {
 >           setupBackground()
